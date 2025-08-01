@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Stage - Gentle Exploration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="stage-selection.css">
+    <link rel="stylesheet" href="progress.css">
+    <link rel="stylesheet" href="micro-interactions.css">
+</head>
+<body class="with-progress page-stage-selection">
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-wrapper">
+            <div class="progress-steps">
+                <div class="progress-step">
+                    <div class="step-circle active animate-glow">1</div>
+                    <span class="step-label">Stage Selection</span>
+                </div>
+                <div class="step-connector active"></div>
+                <div class="progress-step">
+                    <div class="step-circle pending">2</div>
+                    <span class="step-label">Basic Info</span>
+                </div>
+                <div class="step-connector pending"></div>
+                <div class="progress-step">
+                    <div class="step-circle pending">3</div>
+                    <span class="step-label">Start Exploring</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 33%"></div>
+            </div>
+            <div class="progress-text">Step 1: Understand your basic situation</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <button class="back-btn hover-lift focus-ring" onclick="goBack()" data-tooltip="Back to Home">
+                    <span>←</span> Back to Home
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Step 1: Age Selection -->
+            <div id="step-1" class="step-section active">
+                <div class="step-header">
+                    <div class="step-indicator animate-bounce">
+                        <span class="step-number">1</span>
+                        <span class="step-text">Choose Your Stage</span>
+                    </div>
+                </div>
+
+                <div class="page-title">
+                    <h1 class="animate-fade-in">What stage are you currently in?</h1>
+                    <p class="subtitle animate-fade-in">Choose the stage that best matches your current situation, and we'll customize suitable exploration methods for you</p>
+                </div>
+
+                <div class="age-options">
+                    <div class="age-card disabled" data-age="high-school">
+                        <div class="age-emoji">🎓</div>
+                        <h3 class="age-title">High School Student</h3>
+                        <p class="age-range">15-18 years old</p>
+                        <p class="age-description">Making choices for the future, wanting to explore more possibilities</p>
+                        <div class="age-radio"></div>
+                        <div class="disabled-overlay">
+                            <span class="disabled-text">Coming Soon</span>
+                        </div>
+                    </div>
+
+                    <div class="age-card hover-lift selection-ripple" data-age="college" onclick="selectAge('college')">
+                        <div class="age-emoji">🎒</div>
+                        <h3 class="age-title">College Student</h3>
+                        <p class="age-range">18-24 years old</p>
+                        <p class="age-description">Thinking while learning, wanting to find true interest direction</p>
+                        <div class="age-radio"></div>
+                    </div>
+                </div>
+
+                <div id="next-step-1" class="next-step-btn" style="display: none;">
+                    <button class="btn-primary hover-glow focus-ring" onclick="goToStep2()">
+                        Continue →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Current Feelings -->
+            <div id="step-2" class="step-section">
+                <div class="step-header">
+                    <div class="step-indicator animate-bounce">
+                        <span class="step-number">2</span>
+                        <span class="step-text">Understand Your Feelings</span>
+                    </div>
+                </div>
+
+                <div class="page-title">
+                    <h1 class="animate-slide-left">Are you currently facing any of these feelings?</h1>
+                    <p class="subtitle animate-slide-right">You can select multiple options, choose the ones that best match your current state</p>
+                </div>
+
+                <div class="feelings-grid">
+                    <div class="feeling-card hover-lift selection-ripple" data-feeling="uncertain-future" onclick="toggleFeeling('uncertain-future')" data-tooltip="Choose this if you feel uncertain about the future">
+                        <div class="feeling-emoji">🌫️</div>
+                        <h3 class="feeling-title">Feel uncertain about the future</h3>
+                        <div class="feeling-checkbox"></div>
+                    </div>
+
+                    <div class="feeling-card hover-lift selection-ripple" data-feeling="major-doubt" onclick="toggleFeeling('major-doubt')" data-tooltip="Have doubts about current major">
+                        <div class="feeling-emoji">🤔</div>
+                        <h3 class="feeling-title">Uncertain if what I'm learning suits me</h3>
+                        <div class="feeling-checkbox"></div>
+                    </div>
+
+                    <div class="feeling-card hover-lift selection-ripple" data-feeling="change-major" onclick="toggleFeeling('change-major')" data-tooltip="Want to change but lack confidence">
+                        <div class="feeling-emoji">🔄</div>
+                        <h3 class="feeling-title">Want to change major but lack confidence</h3>
+                        <div class="feeling-checkbox"></div>
+                    </div>
+
+                    <div class="feeling-card hover-lift selection-ripple" data-feeling="no-passion" onclick="toggleFeeling('no-passion')" data-tooltip="Still looking for true interests">
+                        <div class="feeling-emoji">💭</div>
+                        <h3 class="feeling-title">Not clear about what I'm passionate about</h3>
+                        <div class="feeling-checkbox"></div>
+                    </div>
+
+                    <div class="feeling-card hover-lift selection-ripple" data-feeling="comparison-anxiety" onclick="toggleFeeling('comparison-anxiety')" data-tooltip="Easily anxious due to external influences">
+                        <div class="feeling-emoji">😰</div>
+                        <h3 class="feeling-title">Easily anxious from comparisons</h3>
+                        <div class="feeling-checkbox"></div>
+                    </div>
+
+                    <div class="feeling-card hover-lift selection-ripple" data-feeling="try-new-field" onclick="toggleFeeling('try-new-field')" data-tooltip="Want to try new fields">
+                        <div class="feeling-emoji">🚀</div>
+                        <h3 class="feeling-title">Want to find an opportunity to try other fields</h3>
+                        <div class="feeling-checkbox"></div>
+                    </div>
+                </div>
+
+                <div class="step-navigation">
+                    <button class="btn-secondary hover-lift focus-ring" onclick="goToStep1()">
+                        ← Back to Previous Step
+                    </button>
+                    <div id="next-step-2" class="next-step-btn" style="display: none;">
+                        <button class="btn-primary hover-glow focus-ring" onclick="completeStageSelection()">
+                            Continue to Fill Information →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="micro-interactions.js"></script>
+    <script src="stage-selection.js"></script>
+</body>
+</html>

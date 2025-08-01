@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Art Video Tutorials</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="video-tutorials.css">
+    <link rel="stylesheet" href="micro-interactions.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="back-buttons">
+                    <button class="back-btn hover-lift focus-ring" onclick="goBack()" data-tooltip="Back to Previous Page">
+                        <span>←</span> Back
+                    </button>
+                    <button class="home-btn hover-lift focus-ring" onclick="goHome()" data-tooltip="Back to Home">
+                        <span>🏠</span> Home
+                    </button>
+                </div>
+                <div class="header-title">
+                    <span class="tutorial-icon">🎥</span>
+                    Video Tutorials
+                </div>
+                <button class="menu-btn hover-lift focus-ring" onclick="toggleMenu()" data-tooltip="Menu">
+                    <span>☰</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h1>🎨 Digital Art Video Tutorials</h1>
+                <p class="welcome-description">Learn digital art through step-by-step video guides. Choose your skill level and start learning!</p>
+            </div>
+
+            <!-- Tutorial Categories -->
+            <div class="tutorial-categories">
+                <div class="category-card hover-lift" onclick="showTutorials('beginner')">
+                    <div class="category-icon">🌱</div>
+                    <div class="category-content">
+                        <h3>Beginner Tutorials</h3>
+                        <p>Perfect for those new to digital art</p>
+                        <span class="video-count">12 videos</span>
+                    </div>
+                    <div class="category-arrow">→</div>
+                </div>
+
+                <div class="category-card hover-lift" onclick="showTutorials('intermediate')">
+                    <div class="category-icon">🚀</div>
+                    <div class="category-content">
+                        <h3>Intermediate Tutorials</h3>
+                        <p>Build on your existing skills</p>
+                        <span class="video-count">18 videos</span>
+                    </div>
+                    <div class="category-arrow">→</div>
+                </div>
+
+                <div class="category-card hover-lift" onclick="showTutorials('advanced')">
+                    <div class="category-icon">⭐</div>
+                    <div class="category-content">
+                        <h3>Advanced Tutorials</h3>
+                        <p>Master complex techniques</p>
+                        <span class="video-count">15 videos</span>
+                    </div>
+                    <div class="category-arrow">→</div>
+                </div>
+
+                <div class="category-card hover-lift" onclick="showTutorials('specialized')">
+                    <div class="category-icon">🎯</div>
+                    <div class="category-content">
+                        <h3>Specialized Skills</h3>
+                        <p>Character design, landscapes, portraits</p>
+                        <span class="video-count">20 videos</span>
+                    </div>
+                    <div class="category-arrow">→</div>
+                </div>
+            </div>
+
+            <!-- Featured Tutorials -->
+            <div class="featured-section">
+                <h2>🔥 Featured Tutorials</h2>
+                <div class="featured-tutorials">
+                    <div class="tutorial-card hover-lift" onclick="playVideo('tutorial1')">
+                        <div class="tutorial-thumbnail">
+                            <img src="https://via.placeholder.com/300x200/8b5cf6/ffffff?text=Digital+Art+Basics" alt="Digital Art Basics">
+                            <div class="play-button">▶️</div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h4>Digital Art Basics: Getting Started</h4>
+                            <p>Learn the fundamentals of digital art tools and techniques</p>
+                            <div class="tutorial-meta">
+                                <span class="duration">⏱️ 15 min</span>
+                                <span class="difficulty">🟢 Beginner</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card hover-lift" onclick="playVideo('tutorial2')">
+                        <div class="tutorial-thumbnail">
+                            <img src="https://via.placeholder.com/300x200/ec4899/ffffff?text=Color+Theory" alt="Color Theory">
+                            <div class="play-button">▶️</div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h4>Color Theory for Digital Artists</h4>
+                            <p>Master color harmony and create stunning artwork</p>
+                            <div class="tutorial-meta">
+                                <span class="duration">⏱️ 25 min</span>
+                                <span class="difficulty">🟡 Intermediate</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card hover-lift" onclick="playVideo('tutorial3')">
+                        <div class="tutorial-thumbnail">
+                            <img src="https://via.placeholder.com/300x200/10b981/ffffff?text=Character+Design" alt="Character Design">
+                            <div class="play-button">▶️</div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h4>Character Design Fundamentals</h4>
+                            <p>Create compelling characters from concept to final art</p>
+                            <div class="tutorial-meta">
+                                <span class="duration">⏱️ 45 min</span>
+                                <span class="difficulty">🔴 Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Start Guide -->
+            <div class="quick-start-section">
+                <div class="quick-start-card">
+                    <h3>🚀 Quick Start Guide</h3>
+                    <p>New to digital art? Start here!</p>
+                    <div class="quick-steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <span class="step-text">Choose your software (Procreate, Photoshop, etc.)</span>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <span class="step-text">Watch "Digital Art Basics" tutorial</span>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <span class="step-text">Practice with simple exercises</span>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <span class="step-text">Build your skills progressively</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary hover-glow" onclick="startLearning()">
+                        Start Learning Now
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="micro-interactions.js"></script>
+    <script src="video-tutorials.js"></script>
+</body>
+</html> 

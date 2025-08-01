@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Art Skill Level - Gentle Exploration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="digital-art-skill.css">
+    <link rel="stylesheet" href="micro-interactions.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <button class="back-btn hover-lift focus-ring" onclick="goBack()" data-tooltip="Back to Plan Selection">
+                    <span>←</span> Back to Plans
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-title">
+                <h1 class="animate-fade-in">🎨 Digital Art</h1>
+                <p class="subtitle animate-fade-in">What's your experience level with digital art?</p>
+            </div>
+
+            <!-- Skill Level Options -->
+            <div class="skill-options">
+                <div class="skill-card hover-lift selection-ripple" data-skill="beginner" onclick="selectSkill('beginner')" data-tooltip="Perfect for those new to digital art">
+                    <div class="skill-emoji">🌱</div>
+                    <div class="skill-content">
+                        <h3 class="skill-title">Beginner</h3>
+                        <p class="skill-description">I'm new to digital art and want to learn the basics</p>
+                        <ul class="skill-features">
+                            <li>Learn fundamental tools</li>
+                            <li>Simple drawing exercises</li>
+                            <li>Step-by-step guidance</li>
+                        </ul>
+                    </div>
+                    <div class="skill-radio"></div>
+                </div>
+
+                <div class="skill-card disabled" data-skill="practitioner" data-tooltip="Coming Soon">
+                    <div class="skill-emoji">🚀</div>
+                    <div class="skill-content">
+                        <h3 class="skill-title">Practitioner</h3>
+                        <p class="skill-description">I have some experience and want to improve my skills</p>
+                        <ul class="skill-features">
+                            <li>Advanced techniques</li>
+                            <li>Complex projects</li>
+                            <li>Skill refinement</li>
+                        </ul>
+                    </div>
+                    <div class="skill-radio"></div>
+                    <div class="disabled-overlay">
+                        <span class="disabled-text">Coming Soon</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continue Button -->
+            <div id="continue-btn" class="continue-btn" style="display: none;">
+                <button class="btn-primary hover-glow animate-pulse focus-ring" onclick="continueToPlan()">
+                    Continue to Plan →
+                </button>
+            </div>
+
+            <!-- Encouragement -->
+            <div class="encouragement animate-fade-in">
+                <p>💝 No matter your level, we'll help you create something beautiful!</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="micro-interactions.js"></script>
+    <script src="digital-art-skill.js"></script>
+</body>
+</html> 

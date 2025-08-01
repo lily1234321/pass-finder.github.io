@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Would You Like to Do Next? - Path Finder</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="next-steps.css">
+    <link rel="stylesheet" href="micro-interactions.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="back-buttons">
+                    <button class="back-btn hover-lift focus-ring" onclick="goBack()" data-tooltip="Back to Previous Page">
+                        <span>←</span> Back
+                    </button>
+                    <button class="home-btn hover-lift focus-ring" onclick="goHome()" data-tooltip="Back to Home">
+                        <span>🏠</span> Home
+                    </button>
+                </div>
+                <div class="header-title">
+                    <span class="next-steps-icon">🎯</span>
+                    What Would You Like to Do Next?
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="welcome-section">
+                <h1 class="page-title">Great job completing your feedback! 🎉</h1>
+                <p class="welcome-message">Choose your next adventure and continue your learning journey</p>
+            </div>
+
+            <div class="next-steps-grid">
+                <!-- Deep Learning -->
+                <div class="next-step-card hover-lift" onclick="goToDeepLearning()">
+                    <div class="card-icon">🧠</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Deep Learning</h3>
+                        <p class="card-description">Explore advanced AI-powered digital art techniques and tools</p>
+                        <div class="card-features">
+                            <span class="feature">AI Tools</span>
+                            <span class="feature">Advanced Techniques</span>
+                            <span class="feature">Creative AI</span>
+                        </div>
+                    </div>
+                    <div class="card-arrow">→</div>
+                </div>
+
+                <!-- 30-Day Art Journey -->
+                <div class="next-step-card hover-lift" onclick="goToArtPlan()">
+                    <div class="card-icon">📅</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Start 30-Day Art Journey</h3>
+                        <p class="card-description">Transform your skills with daily 15-30 minute practice sessions</p>
+                        <div class="card-features">
+                            <span class="feature">Daily Practice</span>
+                            <span class="feature">Structured Learning</span>
+                            <span class="feature">Progress Tracking</span>
+                        </div>
+                    </div>
+                    <div class="card-arrow">→</div>
+                </div>
+
+                <!-- Video Tutorials -->
+                <div class="next-step-card hover-lift" onclick="goToVideoTutorials()">
+                    <div class="card-icon">🎥</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Watch Video Tutorials</h3>
+                        <p class="card-description">Learn from step-by-step video guides and demonstrations</p>
+                        <div class="card-features">
+                            <span class="feature">Step-by-Step</span>
+                            <span class="feature">Visual Learning</span>
+                            <span class="feature">Expert Guidance</span>
+                        </div>
+                    </div>
+                    <div class="card-arrow">→</div>
+                </div>
+
+                <!-- Community Chat -->
+                <div class="next-step-card hover-lift" onclick="goToCommunity()">
+                    <div class="card-icon">💬</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Join Community Chat</h3>
+                        <p class="card-description">Connect with fellow artists and share your progress</p>
+                        <div class="card-features">
+                            <span class="feature">Community</span>
+                            <span class="feature">Share Work</span>
+                            <span class="feature">Get Feedback</span>
+                        </div>
+                    </div>
+                    <div class="card-arrow">→</div>
+                </div>
+            </div>
+
+            <!-- Additional Info -->
+            <div class="info-section">
+                <div class="info-card">
+                    <div class="info-icon">💡</div>
+                    <div class="info-content">
+                        <h4>Pro Tip</h4>
+                        <p>You can always come back to this page to explore other options. Your progress is saved!</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="micro-interactions.js"></script>
+    <script src="next-steps.js"></script>
+</body>
+</html> 

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Learning for Digital Art</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="deep-learning.css">
+    <link rel="stylesheet" href="micro-interactions.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="back-buttons">
+                    <button class="back-btn hover-lift focus-ring" onclick="goBack()" data-tooltip="Back to Previous Page">
+                        <span>←</span> Back
+                    </button>
+                    <button class="home-btn hover-lift focus-ring" onclick="goHome()" data-tooltip="Back to Home">
+                        <span>🏠</span> Home
+                    </button>
+                </div>
+                <div class="header-title">
+                    <span class="ai-icon">🧠</span>
+                    Deep Learning
+                </div>
+                <button class="menu-btn hover-lift focus-ring" onclick="toggleMenu()" data-tooltip="Menu">
+                    <span>☰</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <h1>🧠 AI-Powered Digital Art</h1>
+                <p class="welcome-description">Explore the cutting-edge intersection of artificial intelligence and digital art creation</p>
+            </div>
+
+            <!-- AI Tools Categories -->
+            <div class="ai-tools-categories">
+                <div class="category-card hover-lift" onclick="showAITools('generative')">
+                    <div class="category-icon">🎨</div>
+                    <div class="category-content">
+                        <h3>Generative AI Art</h3>
+                        <p>Create art using AI image generation tools</p>
+                        <span class="tool-count">8 tools</span>
+                    </div>
+                    <div class="category-arrow">→</div>
+                </div>
+
+                <div class="category-card hover-lift" onclick="showAITools('enhancement')">
+                    <div class="category-icon">✨</div>
+                    <div class="category-content">
+                        <h3>AI Enhancement</h3>
+                        <p>Improve and transform existing artwork</p>
+                        <span class="tool-count">12 tools</span>
+                    </div>
+                    <div class="category-arrow">→</div>
+                </div>
+
+                <div class="category-card hover-lift" onclick="showAITools('style')">
+                    <div class="category-icon">🎭</div>
+                    <div class="category-content">
+                        <h3>Style Transfer</h3>
+                        <p>Apply artistic styles to your creations</p>
+                        <span class="tool-count">15 tools</span>
+                    </div>
+                    <div class="category-arrow">→</div>
+                </div>
+
+                <div class="category-card hover-lift" onclick="showAITools('collaboration')">
+                    <div class="category-icon">🤝</div>
+                    <div class="category-content">
+                        <h3>AI Collaboration</h3>
+                        <p>Work with AI as your creative partner</p>
+                        <span class="tool-count">10 tools</span>
+                    </div>
+                    <div class="category-arrow">→</div>
+                </div>
+            </div>
+
+            <!-- Featured AI Tools -->
+            <div class="featured-section">
+                <h2>🔥 Popular AI Tools</h2>
+                <div class="featured-tools">
+                    <div class="tool-card hover-lift" onclick="exploreTool('midjourney')">
+                        <div class="tool-thumbnail">
+                            <img src="https://via.placeholder.com/300x200/8b5cf6/ffffff?text=Midjourney" alt="Midjourney">
+                            <div class="tool-badge">Popular</div>
+                        </div>
+                        <div class="tool-info">
+                            <h4>Midjourney</h4>
+                            <p>Create stunning artwork from text descriptions</p>
+                            <div class="tool-meta">
+                                <span class="type">🎨 Generative</span>
+                                <span class="difficulty">🟡 Intermediate</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tool-card hover-lift" onclick="exploreTool('dalle')">
+                        <div class="tool-thumbnail">
+                            <img src="https://via.placeholder.com/300x200/ec4899/ffffff?text=DALL-E" alt="DALL-E">
+                            <div class="tool-badge">New</div>
+                        </div>
+                        <div class="tool-info">
+                            <h4>DALL-E 3</h4>
+                            <p>Advanced AI image generation with precise control</p>
+                            <div class="tool-meta">
+                                <span class="type">🎨 Generative</span>
+                                <span class="difficulty">🟢 Beginner</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tool-card hover-lift" onclick="exploreTool('stable-diffusion')">
+                        <div class="tool-thumbnail">
+                            <img src="https://via.placeholder.com/300x200/10b981/ffffff?text=Stable+Diffusion" alt="Stable Diffusion">
+                            <div class="tool-badge">Free</div>
+                        </div>
+                        <div class="tool-info">
+                            <h4>Stable Diffusion</h4>
+                            <p>Open-source AI art generation with local control</p>
+                            <div class="tool-meta">
+                                <span class="type">🎨 Generative</span>
+                                <span class="difficulty">🔴 Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Learning Path -->
+            <div class="learning-path-section">
+                <div class="learning-path-card">
+                    <h3>🚀 AI Art Learning Path</h3>
+                    <p>Master AI-powered digital art step by step</p>
+                    <div class="path-steps">
+                        <div class="step">
+                            <span class="step-number">1</span>
+                            <span class="step-text">Learn basic AI art concepts and tools</span>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">2</span>
+                            <span class="step-text">Practice with text-to-image generation</span>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">3</span>
+                            <span class="step-text">Explore style transfer and enhancement</span>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">4</span>
+                            <span class="step-text">Create collaborative AI-human artwork</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary hover-glow" onclick="startAILearning()">
+                        Start AI Learning Journey
+                    </button>
+                </div>
+            </div>
+
+            <!-- AI Ethics Section -->
+            <div class="ethics-section">
+                <div class="ethics-card">
+                    <h3>🤖 AI Art Ethics</h3>
+                    <p>Important considerations when using AI in art creation</p>
+                    <div class="ethics-points">
+                        <div class="ethics-point">
+                            <span class="ethics-icon">⚖️</span>
+                            <span class="ethics-text">Respect copyright and attribution</span>
+                        </div>
+                        <div class="ethics-point">
+                            <span class="ethics-icon">🎯</span>
+                            <span class="ethics-text">Use AI as a tool, not a replacement</span>
+                        </div>
+                        <div class="ethics-point">
+                            <span class="ethics-icon">💡</span>
+                            <span class="ethics-text">Maintain your unique creative voice</span>
+                        </div>
+                        <div class="ethics-point">
+                            <span class="ethics-icon">🌍</span>
+                            <span class="ethics-text">Consider the impact on art communities</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="micro-interactions.js"></script>
+    <script src="deep-learning.js"></script>
+</body>
+</html> 

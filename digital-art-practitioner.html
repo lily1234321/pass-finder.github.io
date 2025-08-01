@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Art Expression Workshop - Practitioner</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="execute.css">
+    <link rel="stylesheet" href="micro-interactions.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="back-buttons">
+                    <button class="back-btn hover-lift focus-ring" onclick="goBack()" data-tooltip="Back to Previous Page">
+                        <span>←</span> Back
+                    </button>
+                    <button class="home-btn hover-lift focus-ring" onclick="goHome()" data-tooltip="Back to Home">
+                        <span>🏠</span> Home
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="plan-content">
+                <!-- Dynamic load plan content -->
+            </div>
+
+            <!-- Upload Section -->
+            <div class="card upload-section hover-lift animate-fade-in">
+                <h3>Upload your work + Answer two questions:</h3>
+                
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-icon">📤</div>
+                    <p>Upload your artwork</p>
+                    <input type="file" id="file-upload" accept="image/*,video/*" style="display: none;" onchange="handleFileUpload(event)">
+                    <button class="upload-btn hover-glow focus-ring" onclick="document.getElementById('file-upload').click()">
+                        Choose File
+                    </button>
+                    <div id="upload-preview" class="upload-preview"></div>
+                </div>
+
+                <div class="questions-section">
+                    <div class="question-group">
+                        <label for="expression-idea">What idea were you trying to express?</label>
+                        <textarea id="expression-idea" class="focus-ring" placeholder="Describe the emotion, moment, or abstract concept you wanted to convey..." oninput="validateExpressionIdea(this)"></textarea>
+                        <div class="char-count" id="expression-char-count">0 characters</div>
+                    </div>
+
+                    <div class="question-group">
+                        <label for="success-rating">How well do you think you captured it? (1-5 scale)</label>
+                        <div class="rating-buttons">
+                            <button class="rating-btn" onclick="selectRating(1)">1</button>
+                            <button class="rating-btn" onclick="selectRating(2)">2</button>
+                            <button class="rating-btn" onclick="selectRating(3)">3</button>
+                            <button class="rating-btn" onclick="selectRating(4)">4</button>
+                            <button class="rating-btn" onclick="selectRating(5)">5</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completion Section -->
+            <div class="card completion-section hover-lift animate-fade-in">
+                <h3>Did you complete this expression workshop?</h3>
+                
+                <div class="completion-buttons">
+                    <button class="btn-completed hover-glow focus-ring" onclick="markCompleted()" data-tooltip="Mark as completed">
+                        <span>✅</span> Yes, I completed it
+                    </button>
+                    <button class="btn-skip hover-lift focus-ring" onclick="skipPlan()" data-tooltip="Can complete later">
+                        <span>⏸️</span> Not completed yet (skip allowed)
+                    </button>
+                </div>
+
+                <div id="next-step" class="next-step" style="display: none;">
+                    <button class="btn-primary hover-glow animate-pulse focus-ring" onclick="goToFeedback()">
+                        Continue to AI feedback →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Encouragement message -->
+            <div class="encouragement-message animate-fade-in">
+                <p>🌟 Your artistic expression is unique and valuable!</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="micro-interactions.js"></script>
+    <script src="digital-art-practitioner.js"></script>
+</body>
+</html> 

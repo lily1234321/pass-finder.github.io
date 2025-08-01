@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .test-button {
+            padding: 10px 20px;
+            margin: 10px;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        .section {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section.active {
+            display: block;
+        }
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 4px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .nav-tab {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+        }
+        .nav-tab.active {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        .nav-tab:hover:not(.active) {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        .post-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            margin-bottom: 16px;
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+        }
+        .post-username {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+        .post-time {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .post-content {
+            margin-bottom: 16px;
+            line-height: 1.6;
+            color: #374151;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Community Test</h1>
+        
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchSection('posts-section')">
+                <span>📝</span>
+                Posts
+            </button>
+            <button class="nav-tab" onclick="switchSection('messages-section')">
+                <span>💬</span>
+                Messages
+            </button>
+            <button class="nav-tab" onclick="switchSection('groups-section')">
+                <span>👥</span>
+                Groups
+            </button>
+        </div>
+        
+        <div id="posts-section" class="section active">
+            <h2>Community Posts</h2>
+            <div id="postsContainer">
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-avatar">🎨</div>
+                        <div>
+                            <div class="post-username">Sarah</div>
+                            <div class="post-time">2 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>Just finished my first digital art piece! The expression workshop really helped me find my voice. What do you think?</p>
+                    </div>
+                </div>
+                
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-avatar">🎭</div>
+                        <div>
+                            <div class="post-username">Mike</div>
+                            <div class="post-time">4 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>Anyone else trying the new expression workshop? I'm struggling with choosing what emotion to express. Any tips? 🤔</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="messages-section" class="section">
+            <h2>Direct Messages</h2>
+            <p>Messages section content will appear here.</p>
+        </div>
+        
+        <div id="groups-section" class="section">
+            <h2>Groups</h2>
+            <p>Groups section content will appear here.</p>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <button class="test-button" onclick="testPosts()">Test Posts</button>
+            <button class="test-button" onclick="testMessages()">Test Messages</button>
+            <button class="test-button" onclick="testGroups()">Test Groups</button>
+        </div>
+    </div>
+    
+    <script>
+        function switchSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        function testPosts() {
+            console.log('Testing posts section...');
+            switchSection('posts-section');
+        }
+        
+        function testMessages() {
+            console.log('Testing messages section...');
+            switchSection('messages-section');
+        }
+        
+        function testGroups() {
+            console.log('Testing groups section...');
+            switchSection('groups-section');
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Test page loaded successfully!');
+        });
+    </script>
+</body>
+</html> 

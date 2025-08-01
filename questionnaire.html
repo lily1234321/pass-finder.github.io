@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Information - Gentle Exploration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="questionnaire.css">
+    <link rel="stylesheet" href="progress.css">
+</head>
+<body class="with-progress page-questionnaire">
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-wrapper">
+            <div class="progress-steps">
+                <div class="progress-step">
+                    <div class="step-circle completed">✓</div>
+                    <span class="step-label">Stage Selection</span>
+                </div>
+                <div class="step-connector completed"></div>
+                <div class="progress-step">
+                    <div class="step-circle active">2</div>
+                    <span class="step-label">Basic Info</span>
+                </div>
+                <div class="step-connector active"></div>
+                <div class="progress-step">
+                    <div class="step-circle pending">3</div>
+                    <span class="step-label">Start Exploring</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 66%"></div>
+            </div>
+            <div class="progress-text">Step 2: Collect your basic information</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <button class="back-btn" onclick="goBack()">
+                    <span>←</span> Back to Previous Step
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="step-header">
+                <div class="step-indicator">
+                    <span class="step-number">3</span>
+                    <span class="step-text">AI Exploration Guidance System (Path Generator)</span>
+                </div>
+            </div>
+
+            <div class="page-title">
+                <h1>Let's get to know you better</h1>
+                <p class="subtitle">This information will help us recommend the most suitable exploration methods for you</p>
+            </div>
+
+            <div class="form-section">
+                <!-- Try Methods -->
+                <div class="form-group">
+                    <label>What methods of exploration can you accept? (Multiple choice)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" onclick="toggleMethod('watch-video')">
+                            <div class="checkbox"></div>
+                            <span>📺 Watch videos to learn</span>
+                        </div>
+                        <div class="checkbox-item" onclick="toggleMethod('hands-on')">
+                            <div class="checkbox"></div>
+                            <span>🙌 Hands-on participation</span>
+                        </div>
+                        <div class="checkbox-item" onclick="toggleMethod('communicate')">
+                            <div class="checkbox"></div>
+                            <span>💬 Communicate with people</span>
+                        </div>
+                        <div class="checkbox-item" onclick="toggleMethod('self-research')">
+                            <div class="checkbox"></div>
+                            <span>🔍 Research slowly on my own</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Priorities -->
+                <div class="form-group">
+                    <label>What matters more to you (Please drag to sort, most important at the top):</label>
+                    <div class="priority-list" id="priority-list">
+                        <div class="priority-item" draggable="true" data-priority="emotional-comfort">
+                            <div class="drag-handle">⋮⋮</div>
+                            <span>😌 Emotional comfort</span>
+                        </div>
+                        <div class="priority-item" draggable="true" data-priority="companionship">
+                            <div class="drag-handle">⋮⋮</div>
+                            <span>👥 Having someone to accompany</span>
+                        </div>
+                        <div class="priority-item" draggable="true" data-priority="quick-feedback">
+                            <div class="drag-handle">⋮⋮</div>
+                            <span>⚡ Quick feedback</span>
+                        </div>
+                        <div class="priority-item" draggable="true" data-priority="clear-goal">
+                            <div class="drag-handle">⋮⋮</div>
+                            <span>🎯 Clear goals</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="next-step-btn">
+                <button class="btn-primary" onclick="completeQuestionnaire()">
+                    Start Exploring ✨
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script src="questionnaire.js"></script>
+</body>
+</html>

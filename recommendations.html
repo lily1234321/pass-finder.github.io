@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next Step Suggestions - Gentle Exploration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="recommendations.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <button class="back-btn" onclick="goBack()">
+                    <span>←</span> Back to Feedback
+                </button>
+                <button class="history-btn" onclick="goToHistory()">
+                    <span>📖</span> Exploration Records
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-title">
+                <h1 id="recommendation-title">Excellent!</h1>
+                <p class="subtitle" id="recommendation-subtitle">You can further try:</p>
+            </div>
+
+            <!-- Suggestions Grid -->
+            <div class="suggestions-grid" id="suggestions-grid">
+                <!-- Dynamically load suggestion content -->
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="tryAgain()">
+                    <span>🔄</span> Try Another New Plan
+                </button>
+                <button class="btn-secondary" onclick="goToHistory()">
+                    <span>🧭</span> View Exploration Footprints
+                </button>
+            </div>
+
+            <!-- Encouragement -->
+            <div class="encouragement-card">
+                <p>🌟 Every exploration helps you understand yourself better, keep your curiosity alive!</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="recommendations.js"></script>
+</body>
+</html>

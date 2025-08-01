@@ -1,0 +1,524 @@
+/* 30-Day Art Plan Styles */
+
+/* Header */
+.back-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.back-btn,
+.home-btn {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border: 2px solid #e2e8f0;
+    color: #475569;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.back-btn::before,
+.home-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.back-btn:hover::before,
+.home-btn:hover::before {
+    left: 100%;
+}
+
+.back-btn:hover {
+    border-color: #8b5cf6;
+    color: #8b5cf6;
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+}
+
+.home-btn:hover {
+    border-color: #10b981;
+    color: #10b981;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+.back-btn:active,
+.home-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.plan-icon {
+    font-size: 20px;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.menu-btn:hover {
+    background: rgba(139, 92, 246, 0.1);
+    color: #8b5cf6;
+}
+
+/* Progress Overview */
+.progress-overview {
+    margin-bottom: 24px;
+}
+
+.progress-card {
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    border-radius: 16px;
+    padding: 24px;
+    color: white;
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.progress-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.progress-percentage {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fbbf24;
+}
+
+.progress-bar-container {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    width: 0%;
+}
+
+.progress-stats {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fbbf24;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+/* Plan Overview */
+.plan-overview {
+    margin-bottom: 32px;
+}
+
+.overview-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.overview-card h3 {
+    margin: 0 0 12px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.plan-description {
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.plan-features {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f3f4f6;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #374151;
+}
+
+.feature-icon {
+    font-size: 16px;
+}
+
+/* Daily Challenges */
+.daily-challenges {
+    margin-bottom: 32px;
+}
+
+.daily-challenges h3 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 20px;
+}
+
+.challenges-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.week-section {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.week-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #8b5cf6;
+    margin: 0 0 20px 0;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+.challenge-card {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.challenge-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    border-color: #8b5cf6;
+}
+
+.challenge-card:last-child {
+    margin-bottom: 0;
+}
+
+.challenge-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.day-number {
+    font-size: 16px;
+    font-weight: 600;
+    color: #8b5cf6;
+    background: rgba(139, 92, 246, 0.1);
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+
+.challenge-status {
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.challenge-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 8px 0;
+}
+
+.challenge-description {
+    color: #6b7280;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.challenge-details {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.time-estimate,
+.difficulty {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.time-estimate {
+    background: rgba(59, 130, 246, 0.1);
+    color: #1d4ed8;
+}
+
+.difficulty {
+    background: rgba(34, 197, 94, 0.1);
+    color: #15803d;
+}
+
+.challenge-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-start,
+.btn-complete {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-start {
+    background: #8b5cf6;
+    color: white;
+}
+
+.btn-start:hover {
+    background: #7c3aed;
+    transform: translateY(-1px);
+}
+
+.btn-complete {
+    background: #10b981;
+    color: white;
+}
+
+.btn-complete:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+/* Status Indicators */
+.challenge-card.completed {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    border-color: #10b981;
+}
+
+.challenge-card.completed .challenge-status {
+    color: #10b981;
+    content: "✅";
+}
+
+.challenge-card.in-progress {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-color: #f59e0b;
+}
+
+.challenge-card.in-progress .challenge-status {
+    color: #f59e0b;
+    content: "🔄";
+}
+
+/* Motivation Section */
+.motivation-section {
+    margin-bottom: 32px;
+}
+
+.motivation-card {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    border: 2px solid #f59e0b;
+}
+
+.motivation-card h3 {
+    margin: 0 0 12px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #92400e;
+}
+
+.motivation-card p {
+    color: #92400e;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.motivation-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.motivation-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-icon {
+    font-size: 20px;
+}
+
+.motivation-stat span:last-child {
+    font-size: 12px;
+    color: #92400e;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .progress-stats {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .plan-features {
+        flex-direction: column;
+    }
+    
+    .challenge-details {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .challenge-actions {
+        flex-direction: column;
+    }
+    
+    .motivation-stats {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .week-section {
+        padding: 16px;
+    }
+    
+    .challenge-card {
+        padding: 16px;
+    }
+}
+
+/* Animations */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.challenge-card {
+    animation: slideInUp 0.5s ease;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .overview-card,
+    .week-section {
+        background: #1f2937;
+        border-color: #374151;
+    }
+    
+    .challenge-card {
+        background: #374151;
+    }
+    
+    .challenge-title {
+        color: #f9fafb;
+    }
+    
+    .challenge-description {
+        color: #d1d5db;
+    }
+    
+    .motivation-card {
+        background: linear-gradient(135deg, #451a03, #78350f);
+        border-color: #f59e0b;
+    }
+    
+    .motivation-card h3,
+    .motivation-card p {
+        color: #fef3c7;
+    }
+    
+    .motivation-stat span:last-child {
+        color: #fef3c7;
+    }
+} 

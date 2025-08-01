@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Community Chat</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+        }
+        .container {
+            min-height: 100vh;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .back-btn, .home-btn {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        .main-content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 4px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .nav-tab {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+        }
+        .nav-tab.active {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        .nav-tab:hover:not(.active) {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        .section {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section.active {
+            display: block;
+        }
+        .post-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            margin-bottom: 16px;
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+        }
+        .post-username {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+        .post-time {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .post-content {
+            margin-bottom: 16px;
+            line-height: 1.6;
+            color: #374151;
+        }
+        .new-post-btn {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .section-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div>
+                    <button class="back-btn" onclick="goBack()">← Back</button>
+                    <button class="home-btn" onclick="goHome()">🏠 Home</button>
+                </div>
+                <div class="header-title">
+                    💬 Community Chat
+                </div>
+                <div>
+                    <button class="back-btn" onclick="toggleMenu()">☰ Menu</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="switchSection('posts-section')">
+                    <span>📝</span>
+                    Posts
+                </button>
+                <button class="nav-tab" onclick="switchSection('messages-section')">
+                    <span>💬</span>
+                    Messages
+                </button>
+                <button class="nav-tab" onclick="switchSection('groups-section')">
+                    <span>👥</span>
+                    Groups
+                </button>
+            </div>
+
+            <div id="posts-section" class="section active">
+                <div class="section-header">
+                    <h2>Community Posts</h2>
+                    <button class="new-post-btn" onclick="showNewPostForm()">+ New Post</button>
+                </div>
+                
+                <div id="postsContainer">
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="post-avatar">🎨</div>
+                            <div>
+                                <div class="post-username">Sarah</div>
+                                <div class="post-time">2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p>Just finished my first digital art piece! The expression workshop really helped me find my voice. What do you think?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="post-avatar">🎭</div>
+                            <div>
+                                <div class="post-username">Mike</div>
+                                <div class="post-time">4 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p>Anyone else trying the new expression workshop? I'm struggling with choosing what emotion to express. Any tips? 🤔</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="messages-section" class="section">
+                <div class="section-header">
+                    <h2>Direct Messages</h2>
+                    <button class="new-post-btn" onclick="showNewChatForm()">+ New Chat</button>
+                </div>
+                <p>Messages section content will appear here.</p>
+            </div>
+
+            <div id="groups-section" class="section">
+                <div class="section-header">
+                    <h2>Groups</h2>
+                    <button class="new-post-btn" onclick="showNewGroupForm()">+ New Group</button>
+                </div>
+                <p>Groups section content will appear here.</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function switchSection(sectionId) {
+            console.log('Switching to section:', sectionId);
+            
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                console.log('Section activated:', sectionId);
+            } else {
+                console.error('Section not found:', sectionId);
+            }
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function goBack() {
+            console.log('Going back...');
+            window.history.back();
+        }
+
+        function goHome() {
+            console.log('Going home...');
+            window.location.href = 'index.html';
+        }
+
+        function toggleMenu() {
+            console.log('Toggle menu...');
+            alert('Menu options coming soon!');
+        }
+
+        function showNewPostForm() {
+            console.log('Show new post form...');
+            alert('New post feature coming soon!');
+        }
+
+        function showNewChatForm() {
+            console.log('Show new chat form...');
+            alert('New chat feature coming soon!');
+        }
+
+        function showNewGroupForm() {
+            console.log('Show new group form...');
+            alert('New group feature coming soon!');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Simple community page loaded successfully!');
+            
+            // Check if elements exist
+            const postsSection = document.getElementById('posts-section');
+            const messagesSection = document.getElementById('messages-section');
+            const groupsSection = document.getElementById('groups-section');
+            const navTabs = document.querySelector('.nav-tabs');
+            
+            console.log('Posts section exists:', !!postsSection);
+            console.log('Messages section exists:', !!messagesSection);
+            console.log('Groups section exists:', !!groupsSection);
+            console.log('Nav tabs exist:', !!navTabs);
+        });
+    </script>
+</body>
+</html> 

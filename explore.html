@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Exploration Plan - Gentle Exploration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="explore.css">
+    <link rel="stylesheet" href="progress.css">
+    <link rel="stylesheet" href="micro-interactions.css">
+</head>
+<body class="with-progress page-explore">
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-wrapper">
+            <div class="progress-steps">
+                <div class="progress-step">
+                    <div class="step-circle completed">✓</div>
+                    <span class="step-label">Stage Selection</span>
+                </div>
+                <div class="step-connector completed"></div>
+                <div class="progress-step">
+                    <div class="step-circle completed">✓</div>
+                    <span class="step-label">Basic Info</span>
+                </div>
+                <div class="step-connector completed"></div>
+                <div class="progress-step">
+                    <div class="step-circle active animate-glow">3</div>
+                    <span class="step-label">Start Exploring</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%"></div>
+            </div>
+            <div class="progress-text">Step 3: Choose your exploration plan</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <button class="back-btn hover-lift focus-ring" onclick="goBack()" data-tooltip="Back to Home">
+                    <span>←</span> Back to Home
+                </button>
+                <div class="user-info" id="user-info">
+                    <!-- Dynamically display user information -->
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-title">
+                <h1 class="animate-fade-in">Choose Exploration Plan</h1>
+                <p class="subtitle animate-fade-in">Please choose a direction you're recently interested in, and we'll create a small plan for you.</p>
+            </div>
+
+            <!-- Plans Grid -->
+            <div class="plans-grid" id="plans-grid">
+                <div class="plan-card hover-lift selection-ripple" data-plan="digital-art" onclick="selectPlan('digital-art')" data-tooltip="Suitable for you who like visual creation">
+                    <div class="plan-emoji">🎨</div>
+                    <h3 class="plan-title">Digital Art</h3>
+                    <p class="plan-description">Watch a 5-minute digital illustration tutorial video + draw a simple line drawing</p>
+                    <div class="plan-duration">
+                        <span class="clock-icon">⏰</span>
+                        <span>10 minutes</span>
+                    </div>
+                    <button class="plan-button hover-glow">
+                        <span>▶</span> I want to try
+                    </button>
+                </div>
+
+                <div class="plan-card hover-lift selection-ripple" data-plan="expression" onclick="selectPlan('expression')" data-tooltip="Improve expression and communication skills">
+                    <div class="plan-emoji">🎤</div>
+                    <h3 class="plan-title">Expression Skills</h3>
+                    <p class="plan-description">Record a 1-minute video talking about something happy that happened to you recently</p>
+                    <div class="plan-duration">
+                        <span class="clock-icon">⏰</span>
+                        <span>5 minutes</span>
+                    </div>
+                    <button class="plan-button hover-glow">
+                        <span>▶</span> Let me try
+                    </button>
+                </div>
+
+                <div class="plan-card hover-lift selection-ripple" data-plan="emotion-awareness" onclick="selectPlan('emotion-awareness')" data-tooltip="Understand and manage your emotions">
+                    <div class="plan-emoji">🧠</div>
+                    <h3 class="plan-title">Emotional Awareness</h3>
+                    <p class="plan-description">Use emojis to record your mood today and write one sentence explaining it</p>
+                    <div class="plan-duration">
+                        <span class="clock-icon">⏰</span>
+                        <span>2 minutes</span>
+                    </div>
+                    <button class="plan-button hover-glow">
+                        <span>▶</span> So simple, I'll do it
+                    </button>
+                </div>
+
+                <div class="plan-card hover-lift selection-ripple" data-plan="creative-vlog" onclick="selectPlan('creative-vlog')" data-tooltip="Record beautiful moments in life">
+                    <div class="plan-emoji">🎬</div>
+                    <h3 class="plan-title">Creative Exploration</h3>
+                    <p class="plan-description">Film a 10-second vlog clip recording your current feelings</p>
+                    <div class="plan-duration">
+                        <span class="clock-icon">⏰</span>
+                        <span>10 minutes</span>
+                    </div>
+                    <button class="plan-button hover-glow">
+                        <span>▶</span> Sounds interesting
+                    </button>
+                </div>
+
+                <div class="plan-card hover-lift selection-ripple" data-plan="writing" onclick="selectPlan('writing')" data-tooltip="Express inner thoughts through writing">
+                    <div class="plan-emoji">✍️</div>
+                    <h3 class="plan-title">Written Expression</h3>
+                    <p class="plan-description">Write a 100-word short story with the theme "A small discovery today"</p>
+                    <div class="plan-duration">
+                        <span class="clock-icon">⏰</span>
+                        <span>8 minutes</span>
+                    </div>
+                    <button class="plan-button hover-glow">
+                        <span>▶</span> I want to write
+                    </button>
+                </div>
+
+                <div class="plan-card hover-lift selection-ripple" data-plan="graduate-research" onclick="selectPlan('graduate-research')" data-tooltip="Learn about academic advancement opportunities">
+                    <div class="plan-emoji">📚</div>
+                    <h3 class="plan-title">Graduate Research</h3>
+                    <p class="plan-description">Learn about graduate school information and explore possibilities for academic advancement</p>
+                    <div class="plan-duration">
+                        <span class="clock-icon">⏰</span>
+                        <span>15 minutes</span>
+                    </div>
+                    <button class="plan-button hover-glow">
+                        <span>▶</span> Let me learn about it
+                    </button>
+                </div>
+            </div>
+
+            <div class="bottom-note animate-fade-in">
+                <p>💡 Each plan is very easy, don't worry about not doing well～</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="micro-interactions.js"></script>
+    <script>
+        // Display user information when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserInfo();
+            animateCards();
+        });
+
+        function loadUserInfo() {
+            const userData = localStorage.getItem('userData');
+            if (userData) {
+                const user = JSON.parse(userData);
+                const userInfoDiv = document.getElementById('user-info');
+                const ageText = user.age === 'high-school' ? 'High School Student' : 'College Student';
+                userInfoDiv.innerHTML = `
+                    <div class="user-badge animate-slide-right">
+                        <span>${ageText}</span>
+                    </div>
+                `;
+            }
+        }
+
+        function animateCards() {
+            const cards = document.querySelectorAll('.plan-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        }
+
+        function goBack() {
+            document.body.style.transition = 'all 0.3s ease';
+            document.body.style.opacity = '0.8';
+            document.body.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 300);
+        }
+
+        function selectPlan(planId) {
+            const selectedCard = document.querySelector(`[data-plan="${planId}"]`);
+            
+            // Add selection animation
+            selectedCard.style.transform = 'scale(1.05)';
+            selectedCard.style.boxShadow = '0 20px 40px rgba(139, 92, 246, 0.3)';
+            
+            // Fade out other cards
+            const allCards = document.querySelectorAll('.plan-card');
+            allCards.forEach(card => {
+                if (card !== selectedCard) {
+                    card.style.opacity = '0.5';
+                    card.style.transform = 'scale(0.95)';
+                }
+            });
+
+            const planTitles = {
+                'digital-art': 'Digital Art',
+                'expression': 'Expression Skills',
+                'emotion-awareness': 'Emotional Awareness',
+                'creative-vlog': 'Creative Exploration',
+                'writing': 'Written Expression',
+                'graduate-research': 'Graduate Research'
+            };
+
+            showMessage(`Selected: ${planTitles[planId]}`, 'success', 2000);
+            
+            localStorage.setItem('selectedPlan', planId);
+            
+            // Set currentPlan for feedback flow
+            if (planId === 'digital-art') {
+                localStorage.setItem('currentPlan', 'digital-art');
+            } else {
+                localStorage.setItem('currentPlan', planId);
+            }
+            
+            setTimeout(() => {
+                document.body.style.transition = 'all 0.3s ease';
+                document.body.style.opacity = '0.8';
+                document.body.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    // Redirect to skill selection for digital art, otherwise go to execute
+                    if (planId === 'digital-art') {
+                        window.location.href = 'digital-art-skill.html';
+                    } else {
+                        window.location.href = 'execute.html';
+                    }
+                }, 300);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

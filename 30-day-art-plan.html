@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30-Day Digital Art Practice Plan</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="30-day-art-plan.css">
+    <link rel="stylesheet" href="micro-interactions.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="back-buttons">
+                    <button class="back-btn hover-lift focus-ring" onclick="goBack()" data-tooltip="Back to Previous Page">
+                        <span>←</span> Back
+                    </button>
+                    <button class="home-btn hover-lift focus-ring" onclick="goHome()" data-tooltip="Back to Home">
+                        <span>🏠</span> Home
+                    </button>
+                </div>
+                <div class="header-title">
+                    <span class="plan-icon">📅</span>
+                    30-Day Art Journey
+                </div>
+                <button class="menu-btn hover-lift focus-ring" onclick="toggleMenu()" data-tooltip="Menu">
+                    <span>☰</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Progress Overview -->
+        <div class="progress-overview">
+            <div class="progress-card">
+                <div class="progress-header">
+                    <h2>Your Progress</h2>
+                    <span class="progress-percentage" id="progress-percentage">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+                <div class="progress-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="completed-days">0</span>
+                        <span class="stat-label">Days Completed</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="remaining-days">30</span>
+                        <span class="stat-label">Days Remaining</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="current-streak">0</span>
+                        <span class="stat-label">Day Streak</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plan Overview -->
+        <div class="plan-overview">
+            <div class="overview-card">
+                <h3>🎨 30-Day Digital Art Mastery Plan</h3>
+                <p class="plan-description">
+                    Transform your digital art skills with daily 15-30 minute practice sessions. 
+                    Each day builds upon the previous, creating a solid foundation for your artistic journey.
+                </p>
+                <div class="plan-features">
+                    <div class="feature">
+                        <span class="feature-icon">⏰</span>
+                        <span>15-30 min daily</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🎯</span>
+                        <span>Small achievable goals</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">📈</span>
+                        <span>Progressive learning</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Challenges -->
+        <div class="daily-challenges">
+            <h3>Daily Challenges</h3>
+            <div class="challenges-grid" id="challenges-grid">
+                <!-- Week 1: Fundamentals -->
+                <div class="week-section">
+                    <h4 class="week-title">Week 1: Fundamentals & Tools</h4>
+                    
+                    <div class="challenge-card" data-day="1" onclick="toggleChallenge(1)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 1</span>
+                            <span class="challenge-status" id="status-1">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Tool Exploration</h5>
+                        <p class="challenge-description">Spend 15 minutes exploring your digital art software. Try different brushes, layers, and basic tools.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 15 min</span>
+                            <span class="difficulty">🟢 Beginner</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-1" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(1)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(1)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="2" onclick="toggleChallenge(2)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 2</span>
+                            <span class="challenge-status" id="status-2">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Basic Shapes</h5>
+                        <p class="challenge-description">Draw 10 circles, 10 squares, and 10 triangles. Focus on clean, smooth lines.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 20 min</span>
+                            <span class="difficulty">🟢 Beginner</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-2" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(2)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(2)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="3" onclick="toggleChallenge(3)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 3</span>
+                            <span class="challenge-status" id="status-3">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Line Practice</h5>
+                        <p class="challenge-description">Draw 20 straight lines, 20 curved lines, and 20 zigzag lines. Practice smooth hand movement.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 15 min</span>
+                            <span class="difficulty">🟢 Beginner</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-3" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(3)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(3)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="4" onclick="toggleChallenge(4)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 4</span>
+                            <span class="challenge-status" id="status-4">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Color Wheel</h5>
+                        <p class="challenge-description">Create a simple color wheel with primary, secondary, and tertiary colors.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 25 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-4" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(4)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(4)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="5" onclick="toggleChallenge(5)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 5</span>
+                            <span class="challenge-status" id="status-5">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Simple Objects</h5>
+                        <p class="challenge-description">Draw 5 everyday objects using basic shapes: apple, book, cup, phone, keys.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 30 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-5" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(5)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(5)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="6" onclick="toggleChallenge(6)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 6</span>
+                            <span class="challenge-status" id="status-6">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Perspective Basics</h5>
+                        <p class="challenge-description">Draw 3 cubes in different perspectives: front view, side view, and 3/4 view.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 25 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-6" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(6)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(6)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="7" onclick="toggleChallenge(7)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 7</span>
+                            <span class="challenge-status" id="status-7">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Week 1 Review</h5>
+                        <p class="challenge-description">Review your work from the week. Pick your best piece and try to improve it.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 20 min</span>
+                            <span class="difficulty">🟢 Beginner</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-7" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(7)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(7)">Mark Complete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 2: Shading & Lighting -->
+                <div class="week-section">
+                    <h4 class="week-title">Week 2: Shading & Lighting</h4>
+                    
+                    <div class="challenge-card" data-day="8" onclick="toggleChallenge(8)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 8</span>
+                            <span class="challenge-status" id="status-8">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Value Scale</h5>
+                        <p class="challenge-description">Create a 10-step value scale from white to black using only grayscale.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 20 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-8" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(8)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(8)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="9" onclick="toggleChallenge(9)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 9</span>
+                            <span class="challenge-status" id="status-9">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Sphere Shading</h5>
+                        <p class="challenge-description">Draw 3 spheres with different light sources: top, side, and bottom lighting.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 25 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-9" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(9)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(9)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="10" onclick="toggleChallenge(10)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 10</span>
+                            <span class="challenge-status" id="status-10">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Cylinder Shading</h5>
+                        <p class="challenge-description">Draw 2 cylinders with different lighting: one with top light, one with side light.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 20 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-10" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(10)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(10)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="11" onclick="toggleChallenge(11)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 11</span>
+                            <span class="challenge-status" id="status-11">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Cube Shading</h5>
+                        <p class="challenge-description">Draw a cube with 3 visible faces, each with different shading values.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 15 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-11" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(11)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(11)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="12" onclick="toggleChallenge(12)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 12</span>
+                            <span class="challenge-status" id="status-12">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Simple Still Life</h5>
+                        <p class="challenge-description">Arrange 3 objects and draw them with proper shading and lighting.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 30 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-12" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(12)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(12)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="13" onclick="toggleChallenge(13)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 13</span>
+                            <span class="challenge-status" id="status-13">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Shadow Practice</h5>
+                        <p class="challenge-description">Draw 5 simple objects with their cast shadows on a surface.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 25 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-13" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(13)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(13)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="14" onclick="toggleChallenge(14)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 14</span>
+                            <span class="challenge-status" id="status-14">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Week 2 Review</h5>
+                        <p class="challenge-description">Compare your shading work from this week to last week. Notice your improvement!</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 15 min</span>
+                            <span class="difficulty">🟢 Beginner</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-14" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(14)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(14)">Mark Complete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 3: Color & Composition -->
+                <div class="week-section">
+                    <h4 class="week-title">Week 3: Color & Composition</h4>
+                    
+                    <div class="challenge-card" data-day="15" onclick="toggleChallenge(15)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 15</span>
+                            <span class="challenge-status" id="status-15">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Color Harmony</h5>
+                        <p class="challenge-description">Create 3 small compositions using complementary, analogous, and triadic color schemes.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 30 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-15" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(15)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(15)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="16" onclick="toggleChallenge(16)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 16</span>
+                            <span class="challenge-status" id="status-16">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Rule of Thirds</h5>
+                        <p class="challenge-description">Draw 3 simple landscapes using the rule of thirds composition technique.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 25 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-16" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(16)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(16)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="17" onclick="toggleChallenge(17)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 17</span>
+                            <span class="challenge-status" id="status-17">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Warm vs Cool</h5>
+                        <p class="challenge-description">Create 2 small paintings: one using only warm colors, one using only cool colors.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 30 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-17" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(17)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(17)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="18" onclick="toggleChallenge(18)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 18</span>
+                            <span class="challenge-status" id="status-18">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Leading Lines</h5>
+                        <p class="challenge-description">Draw 2 compositions using leading lines to guide the viewer's eye.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 20 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-18" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(18)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(18)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="19" onclick="toggleChallenge(19)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 19</span>
+                            <span class="challenge-status" id="status-19">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Color Gradients</h5>
+                        <p class="challenge-description">Create 5 smooth color gradients transitioning between different colors.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 25 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-19" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(19)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(19)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="20" onclick="toggleChallenge(20)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 20</span>
+                            <span class="challenge-status" id="status-20">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Symmetry & Balance</h5>
+                        <p class="challenge-description">Create 2 designs: one symmetrical, one asymmetrical but balanced.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 30 min</span>
+                            <span class="difficulty">🟡 Intermediate</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-20" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(20)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(20)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="21" onclick="toggleChallenge(21)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 21</span>
+                            <span class="challenge-status" id="status-21">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Week 3 Review</h5>
+                        <p class="challenge-description">Create a mood board using your favorite colors and compositions from this week.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 20 min</span>
+                            <span class="difficulty">🟢 Beginner</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-21" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(21)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(21)">Mark Complete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 4: Advanced Techniques -->
+                <div class="week-section">
+                    <h4 class="week-title">Week 4: Advanced Techniques</h4>
+                    
+                    <div class="challenge-card" data-day="22" onclick="toggleChallenge(22)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 22</span>
+                            <span class="challenge-status" id="status-22">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Texture Practice</h5>
+                        <p class="challenge-description">Draw 5 different textures: wood, metal, fabric, stone, and glass.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 30 min</span>
+                            <span class="difficulty">🔴 Advanced</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-22" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(22)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(22)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="23" onclick="toggleChallenge(23)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 23</span>
+                            <span class="challenge-status" id="status-23">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Character Design</h5>
+                        <p class="challenge-description">Design a simple character with basic shapes. Focus on proportions and personality.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 35 min</span>
+                            <span class="difficulty">🔴 Advanced</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-23" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(23)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(23)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="24" onclick="toggleChallenge(24)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 24</span>
+                            <span class="challenge-status" id="status-24">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Environment Sketch</h5>
+                        <p class="challenge-description">Draw a simple room or outdoor scene with basic perspective and lighting.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 40 min</span>
+                            <span class="difficulty">🔴 Advanced</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-24" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(24)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(24)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="25" onclick="toggleChallenge(25)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 25</span>
+                            <span class="challenge-status" id="status-25">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Digital Painting</h5>
+                        <p class="challenge-description">Create a simple landscape using only digital painting techniques (no line art).</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 45 min</span>
+                            <span class="difficulty">🔴 Advanced</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-25" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(25)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(25)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="26" onclick="toggleChallenge(26)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 26</span>
+                            <span class="challenge-status" id="status-26">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Animation Basics</h5>
+                        <p class="challenge-description">Create 3 simple frames showing a bouncing ball or growing plant.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 30 min</span>
+                            <span class="difficulty">🔴 Advanced</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-26" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(26)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(26)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="27" onclick="toggleChallenge(27)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 27</span>
+                            <span class="challenge-status" id="status-27">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Style Experiment</h5>
+                        <p class="challenge-description">Draw the same object in 3 different art styles: realistic, cartoon, and abstract.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 35 min</span>
+                            <span class="difficulty">🔴 Advanced</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-27" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(27)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(27)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="28" onclick="toggleChallenge(28)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 28</span>
+                            <span class="challenge-status" id="status-28">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Week 4 Review</h5>
+                        <p class="challenge-description">Create a portfolio piece combining your favorite techniques from this week.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 45 min</span>
+                            <span class="difficulty">🔴 Advanced</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-28" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(28)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(28)">Mark Complete</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final Days -->
+                <div class="week-section">
+                    <h4 class="week-title">Final Days: Mastery & Reflection</h4>
+                    
+                    <div class="challenge-card" data-day="29" onclick="toggleChallenge(29)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 29</span>
+                            <span class="challenge-status" id="status-29">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Personal Project</h5>
+                        <p class="challenge-description">Create a piece that represents your artistic journey and growth over the past month.</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 60 min</span>
+                            <span class="difficulty">🔴 Advanced</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-29" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(29)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(29)">Mark Complete</button>
+                        </div>
+                    </div>
+
+                    <div class="challenge-card" data-day="30" onclick="toggleChallenge(30)">
+                        <div class="challenge-header">
+                            <span class="day-number">Day 30</span>
+                            <span class="challenge-status" id="status-30">⏳</span>
+                        </div>
+                        <h5 class="challenge-title">Celebration & Planning</h5>
+                        <p class="challenge-description">Review your entire journey, celebrate your progress, and plan your next artistic goals!</p>
+                        <div class="challenge-details">
+                            <span class="time-estimate">⏱️ 30 min</span>
+                            <span class="difficulty">🟢 Beginner</span>
+                        </div>
+                        <div class="challenge-actions" id="actions-30" style="display: none;">
+                            <button class="btn-start" onclick="startChallenge(30)">Start Challenge</button>
+                            <button class="btn-complete" onclick="completeChallenge(30)">Mark Complete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Motivation Section -->
+        <div class="motivation-section">
+            <div class="motivation-card">
+                <h3>🎯 Remember Your Why</h3>
+                <p>Every great artist started with simple shapes and basic lines. Your journey is unique and valuable. Keep going!</p>
+                <div class="motivation-stats">
+                    <div class="motivation-stat">
+                        <span class="stat-icon">📈</span>
+                        <span>Progress over perfection</span>
+                    </div>
+                    <div class="motivation-stat">
+                        <span class="stat-icon">🎨</span>
+                        <span>Consistency beats intensity</span>
+                    </div>
+                    <div class="motivation-stat">
+                        <span class="stat-icon">✨</span>
+                        <span>Every day counts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="micro-interactions.js"></script>
+    <script src="30-day-art-plan.js"></script>
+</body>
+</html> 

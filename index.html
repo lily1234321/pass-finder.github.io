@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pass Finder - Discover Your True Passion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="progress.css">
+    <link rel="stylesheet" href="micro-interactions.css">
+    <style>
+        /* Diary Widget Styles */
+        .diary-widget {
+            position: fixed !important;
+            bottom: 30px !important;
+            right: 30px !important;
+            width: 70px !important;
+            height: 70px !important;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899) !important;
+            border-radius: 50% !important;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3) !important;
+            cursor: pointer !important;
+            z-index: 99999 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 28px !important;
+            color: white !important;
+            transition: all 0.3s ease !important;
+            animation: float 3s ease-in-out infinite !important;
+            border: 3px solid white !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .diary-widget:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.4) !important;
+        }
+        
+        .diary-modal {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.5) !important;
+            z-index: 9998 !important;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .diary-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideInUp 0.3s ease;
+        }
+        
+        .diary-header {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .diary-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .diary-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+        
+        .diary-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .diary-body {
+            padding: 20px;
+        }
+        
+        .diary-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 4px;
+        }
+        
+        .diary-tab {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            transition: all 0.3s ease;
+        }
+        
+        .diary-tab.active {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .diary-tab:hover:not(.active) {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        
+        .diary-section {
+            display: none;
+        }
+        
+        .diary-section.active {
+            display: block;
+        }
+        
+        .diary-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s ease;
+            margin-bottom: 16px;
+        }
+        
+        .diary-input:focus {
+            border-color: #8b5cf6;
+        }
+        
+        .diary-input::placeholder {
+            color: #9ca3af;
+        }
+        
+        .diary-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .diary-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .diary-btn.primary {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+        }
+        
+        .diary-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .diary-btn.secondary {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .diary-btn.secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .diary-entries {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .diary-entry {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .entry-date {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .entry-type {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .entry-type.mood {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        
+        .entry-type.plan {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+        
+        .entry-content {
+            color: #374151;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .mood-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+        
+        .mood-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #e5e7eb;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mood-btn:hover {
+            transform: scale(1.1);
+            border-color: #8b5cf6;
+        }
+        
+        .mood-btn.selected {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        .plan-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .plan-input {
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+        
+        .plan-input:focus {
+            border-color: #8b5cf6;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideOutDown {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 50px rgba(255, 107, 107, 0.6);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4);
+            }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Enhanced Hero Styles */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+        
+        .hero-badge {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7)) !important;
+            backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(139, 92, 246, 0.2) !important;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.1) !important;
+            animation: float 3s ease-in-out infinite !important;
+            padding: 12px 24px !important;
+            font-size: 16px !important;
+        }
+        
+        .sparkles {
+            animation: sparkle 2s ease-in-out infinite !important;
+        }
+        
+        .hero-title {
+            position: relative !important;
+        }
+        
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            border-radius: 2px;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+            position: relative !important;
+        }
+        
+        .highlight::before {
+            content: '✨';
+            position: absolute;
+            top: -20px;
+            right: -30px;
+            font-size: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        .hero-subtitle {
+            position: relative !important;
+        }
+        
+        .hero-subtitle::before {
+            content: '🌟';
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+        
+        .hero-subtitle::after {
+            content: '🌟';
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            animation: twinkle 3s ease-in-out infinite 1.5s;
+        }
+        
+        .cta-button {
+            position: relative !important;
+            overflow: hidden !important;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3) !important;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .heart-icon {
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        /* Responsive Design for Diary */
+        @media (max-width: 768px) {
+            .diary-widget {
+                bottom: 20px !important;
+                right: 20px !important;
+                width: 50px !important;
+                height: 50px !important;
+                font-size: 20px !important;
+            }
+            
+            .diary-content {
+                width: 95%;
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="page-index">
+    <!-- Progress Bar (hidden on index page) -->
+    <div class="progress-container">
+        <div class="progress-wrapper">
+            <div class="progress-steps">
+                <div class="progress-step">
+                    <div class="step-circle pending">1</div>
+                    <span class="step-label">Stage Selection</span>
+                </div>
+                <div class="step-connector pending"></div>
+                <div class="progress-step">
+                    <div class="step-circle pending">2</div>
+                    <span class="step-label">Basic Info</span>
+                </div>
+                <div class="step-connector pending"></div>
+                <div class="progress-step">
+                    <div class="step-circle pending">3</div>
+                    <span class="step-label">Start Exploring</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-text">Ready to start your exploration journey</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo animate-fade-in">
+                    <span class="compass-icon">🔍</span>
+                    <span class="logo-text">Pass Finder</span>
+                </div>
+                <div style="margin-left: auto;">
+                    <a href="user-profile.html" class="btn btn-secondary" style="text-decoration: none; padding: 8px 16px; font-size: 14px;">
+                        <span>👤</span>
+                        Profile
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="hero-badge animate-bounce">
+                    <span class="sparkles">✨</span>
+                    <span>Finding your passion is a journey of discovery</span>
+                </div>
+
+                <h1 class="hero-title animate-fade-in">
+                    Discover your passion,<br>
+                    <span class="highlight">one step at a time</span>
+                </h1>
+
+                <p class="hero-subtitle animate-fade-in">
+                    Pass Finder helps you explore different interests and find what truly excites you. Let's discover together.
+                </p>
+
+                <button class="cta-button hover-glow animate-pulse" onclick="goToStageSelection()">
+                    <span class="heart-icon">💝</span>
+                    Start Finding My Passion
+                </button>
+            </div>
+
+            <!-- Feature Cards -->
+            <div class="features-grid">
+                <div class="feature-card hover-lift" style="animation: slideInUp 0.6s ease 0.2s both;">
+                    <div class="feature-icon" style="animation: bounce 2s ease-in-out infinite;">🔍</div>
+                    <h3 class="feature-title">Smart Discovery</h3>
+                    <p class="feature-description">Our AI helps you explore different interests and find what truly excites you</p>
+                </div>
+
+                <div class="feature-card hover-lift" style="animation: slideInUp 0.6s ease 0.4s both;">
+                    <div class="feature-icon" style="animation: bounce 2s ease-in-out infinite 0.5s;">🎯</div>
+                    <h3 class="feature-title">Personalized Guidance</h3>
+                    <p class="feature-description">Get tailored recommendations based on your interests and experiences</p>
+                </div>
+
+                <div class="feature-card hover-lift" style="animation: slideInUp 0.6s ease 0.6s both;">
+                    <div class="feature-icon" style="animation: bounce 2s ease-in-out infinite 1s;">🚀</div>
+                    <h3 class="feature-title">Passion Development</h3>
+                    <p class="feature-description">Transform your interests into meaningful passions and life goals</p>
+                </div>
+            </div>
+
+            <!-- AI Chat Section -->
+            <div class="ai-chat-section">
+                <div class="ai-chat-card hover-lift" onclick="goToChat()" style="animation: slideInUp 0.6s ease 0.8s both;">
+                    <div class="ai-chat-content">
+                        <div class="ai-chat-icon" style="animation: float 3s ease-in-out infinite;">🤖</div>
+                        <div class="ai-chat-info">
+                            <h3 class="ai-chat-title">AI Passion Finder</h3>
+                            <p class="ai-chat-description">Your personal AI assistant that helps you discover and develop your true passions</p>
+                        </div>
+                        <div class="ai-chat-arrow" style="animation: bounce 2s ease-in-out infinite;">→</div>
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+    </div>
+
+    <!-- Floating Decorative Elements -->
+    <div style="position: fixed; top: 20%; left: 10%; font-size: 24px; animation: float 4s ease-in-out infinite; z-index: 1; pointer-events: none;">🌈</div>
+    <div style="position: fixed; top: 30%; right: 15%; font-size: 20px; animation: float 5s ease-in-out infinite 1s; z-index: 1; pointer-events: none;">🎈</div>
+    <div style="position: fixed; bottom: 40%; left: 5%; font-size: 18px; animation: float 6s ease-in-out infinite 2s; z-index: 1; pointer-events: none;">⭐</div>
+    <div style="position: fixed; top: 60%; right: 8%; font-size: 22px; animation: float 4.5s ease-in-out infinite 0.5s; z-index: 1; pointer-events: none;">🎪</div>
+
+    <!-- Floating AI Chat Button -->
+    <div id="floatingAIChatBtn" onclick="toggleAIChat()" style="
+        position: fixed !important;
+        bottom: 120px !important;
+        right: 30px !important;
+        width: 60px !important;
+        height: 60px !important;
+        background: linear-gradient(135deg, #8b5cf6, #ec4899) !important;
+        border-radius: 50% !important;
+        box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3) !important;
+        cursor: pointer !important;
+        z-index: 999999 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 24px !important;
+        color: white !important;
+        border: 3px solid white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        animation: pulse 2s infinite !important;
+        transition: all 0.3s ease !important;
+    ">
+        🤖
+    </div>
+
+    <!-- Floating Diary Button -->
+    <div id="floatingDiaryBtn" onclick="toggleDiary()" style="
+        position: fixed !important;
+        bottom: 30px !important;
+        right: 30px !important;
+        width: 80px !important;
+        height: 80px !important;
+        background: linear-gradient(135deg, #ff6b6b, #4ecdc4) !important;
+        border-radius: 50% !important;
+        box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4) !important;
+        cursor: pointer !important;
+        z-index: 999999 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 32px !important;
+        color: white !important;
+        border: 4px solid white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        animation: pulse 2s infinite !important;
+        transition: all 0.3s ease !important;
+    ">
+        💭
+    </div>
+    
+    <!-- Diary Widget (hidden by default) -->
+    <div class="diary-widget" onclick="toggleDiary()" style="display: none !important;">
+        📝
+    </div>
+
+    <!-- AI Chat Modal -->
+    <div id="aiChatModal" style="
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        z-index: 999998 !important;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    ">
+        <div style="
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        ">
+            <!-- Chat Header -->
+            <div style="
+                background: linear-gradient(135deg, #8b5cf6, #ec4899);
+                color: white;
+                padding: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            ">
+                <h3 style="margin: 0;">🤖 AI Passion Finder</h3>
+                <button onclick="toggleAIChat()" style="
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-size: 24px;
+                    cursor: pointer;
+                    padding: 0;
+                    width: 30px;
+                    height: 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ">×</button>
+            </div>
+
+            <!-- Chat Messages -->
+            <div id="aiChatMessages" style="
+                flex: 1;
+                overflow-y: auto;
+                padding: 20px;
+                background: #f8fafc;
+                max-height: 400px;
+            ">
+                <!-- Welcome message will be added here -->
+            </div>
+
+            <!-- Chat Input -->
+            <div style="
+                padding: 20px;
+                background: white;
+                border-top: 1px solid #e5e7eb;
+            ">
+                <div style="
+                    display: flex;
+                    gap: 12px;
+                    align-items: flex-end;
+                ">
+                    <textarea id="aiChatInput" style="
+                        flex: 1;
+                        border: 2px solid #e5e7eb;
+                        border-radius: 20px;
+                        padding: 12px 16px;
+                        font-size: 14px;
+                        resize: none;
+                        outline: none;
+                        transition: border-color 0.2s ease;
+                        max-height: 120px;
+                        min-height: 44px;
+                    " placeholder="Tell me what you're interested in..." onkeydown="handleAIChatKeyDown(event)"></textarea>
+                    <button onclick="sendAIChatMessage()" style="
+                        background: linear-gradient(135deg, #8b5cf6, #ec4899);
+                        color: white;
+                        border: none;
+                        padding: 12px 20px;
+                        border-radius: 20px;
+                        cursor: pointer;
+                        font-size: 14px;
+                        transition: all 0.3s ease;
+                    ">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diary Modal -->
+    <div class="diary-modal" id="diaryModal">
+        <div class="diary-content">
+            <div class="diary-header">
+                <h3 class="diary-title">My Diary</h3>
+                <button class="diary-close" onclick="closeDiary()">×</button>
+            </div>
+            
+            <div class="diary-body">
+                <div class="diary-tabs">
+                    <button class="diary-tab active" onclick="switchTab('mood')">😊 Mood</button>
+                    <button class="diary-tab" onclick="switchTab('plan')">📋 Plans</button>
+                    <button class="diary-tab" onclick="switchTab('history')">📚 History</button>
+                </div>
+                
+                <!-- Mood Section -->
+                <div id="mood-section" class="diary-section active">
+                    <div class="mood-selector">
+                        <button class="mood-btn" onclick="selectMood('😊')" data-mood="😊">😊</button>
+                        <button class="mood-btn" onclick="selectMood('😄')" data-mood="😄">😄</button>
+                        <button class="mood-btn" onclick="selectMood('😌')" data-mood="😌">😌</button>
+                        <button class="mood-btn" onclick="selectMood('🤔')" data-mood="🤔">🤔</button>
+                        <button class="mood-btn" onclick="selectMood('😔')" data-mood="😔">😔</button>
+                        <button class="mood-btn" onclick="selectMood('😤')" data-mood="😤">😤</button>
+                    </div>
+                    
+                    <textarea class="diary-input" id="mood-input" placeholder="How are you feeling today? What's on your mind?" rows="4"></textarea>
+                    
+                    <div class="diary-actions">
+                        <button class="diary-btn primary" onclick="saveMood()">Save Mood</button>
+                        <button class="diary-btn secondary" onclick="clearMood()">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Plan Section -->
+                <div id="plan-section" class="diary-section">
+                    <div class="plan-inputs">
+                        <input type="text" class="plan-input" id="plan-title" placeholder="Plan Title">
+                        <textarea class="diary-input" id="plan-content" placeholder="Describe your plan in detail..." rows="4"></textarea>
+                    </div>
+                    
+                    <div class="diary-actions">
+                        <button class="diary-btn primary" onclick="savePlan()">Save Plan</button>
+                        <button class="diary-btn secondary" onclick="clearPlan()">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- History Section -->
+                <div id="history-section" class="diary-section">
+                    <div class="diary-entries" id="diaryEntries">
+                        <!-- Entries will be loaded here -->
+                    </div>
+                    
+                    <div class="diary-actions">
+                        <button class="diary-btn secondary" onclick="clearHistory()">Clear History</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="micro-interactions.js"></script>
+    <script>
+        let selectedMood = '';
+        let diaryEntries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+        
+        function toggleDiary() {
+            const modal = document.getElementById('diaryModal');
+            if (modal.style.display === 'flex') {
+                closeDiary();
+            } else {
+                openDiary();
+            }
+        }
+        
+        function openDiary() {
+            const modal = document.getElementById('diaryModal');
+            modal.style.display = 'flex';
+            loadHistory();
+        }
+        
+        function closeDiary() {
+            const modal = document.getElementById('diaryModal');
+            modal.style.animation = 'slideOutDown 0.3s ease';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.animation = '';
+            }, 300);
+        }
+        
+        function switchTab(tabName) {
+            // Hide all sections
+            document.querySelectorAll('.diary-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.diary-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(`${tabName}-section`).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        function selectMood(mood) {
+            selectedMood = mood;
+            
+            // Remove selected class from all mood buttons
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked button
+            event.target.classList.add('selected');
+        }
+        
+        function saveMood() {
+            const content = document.getElementById('mood-input').value.trim();
+            const mood = selectedMood;
+            
+            if (!mood) {
+                alert('Please select a mood!');
+                return;
+            }
+            
+            if (!content) {
+                alert('Please write about your feelings!');
+                return;
+            }
+            
+            const entry = {
+                type: 'mood',
+                mood: mood,
+                content: content,
+                date: new Date().toLocaleString('en-US'),
+                timestamp: Date.now()
+            };
+            
+            diaryEntries.unshift(entry);
+            saveToStorage();
+            
+            alert('Mood saved! 😊');
+            clearMood();
+        }
+        
+        function clearMood() {
+            document.getElementById('mood-input').value = '';
+            selectedMood = '';
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+        }
+        
+        function savePlan() {
+            const title = document.getElementById('plan-title').value.trim();
+            const content = document.getElementById('plan-content').value.trim();
+            
+            if (!title) {
+                alert('Please enter a plan title!');
+                return;
+            }
+            
+            if (!content) {
+                alert('Please describe your plan in detail!');
+                return;
+            }
+            
+            const entry = {
+                type: 'plan',
+                title: title,
+                content: content,
+                date: new Date().toLocaleString('en-US'),
+                timestamp: Date.now()
+            };
+            
+            diaryEntries.unshift(entry);
+            saveToStorage();
+            
+            alert('Plan saved! 📋');
+            clearPlan();
+        }
+        
+        function clearPlan() {
+            document.getElementById('plan-title').value = '';
+            document.getElementById('plan-content').value = '';
+        }
+        
+        function loadHistory() {
+            const container = document.getElementById('diaryEntries');
+            container.innerHTML = '';
+            
+            if (diaryEntries.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6b7280; padding: 20px;">No entries yet. Start writing your first diary entry!</p>';
+                return;
+            }
+            
+            diaryEntries.forEach(entry => {
+                const entryElement = document.createElement('div');
+                entryElement.className = 'diary-entry';
+                
+                if (entry.type === 'mood') {
+                    entryElement.innerHTML = `
+                        <div class="entry-header">
+                            <span class="entry-date">${entry.date}</span>
+                            <span class="entry-type mood">Mood</span>
+                        </div>
+                        <div style="font-size: 24px; margin: 8px 0;">${entry.mood}</div>
+                        <p class="entry-content">${entry.content}</p>
+                    `;
+                } else if (entry.type === 'plan') {
+                    entryElement.innerHTML = `
+                        <div class="entry-header">
+                            <span class="entry-date">${entry.date}</span>
+                            <span class="entry-type plan">Plan</span>
+                        </div>
+                        <h4 style="margin: 8px 0; color: #1f2937;">${entry.title}</h4>
+                        <p class="entry-content">${entry.content}</p>
+                    `;
+                }
+                
+                container.appendChild(entryElement);
+            });
+        }
+        
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all history?')) {
+                diaryEntries = [];
+                saveToStorage();
+                loadHistory();
+                alert('History cleared!');
+            }
+        }
+        
+        function saveToStorage() {
+            localStorage.setItem('diaryEntries', JSON.stringify(diaryEntries));
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('diaryModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDiary();
+            }
+        });
+
+        function goToStageSelection() {
+            // Add page transition animation
+            document.body.style.transition = 'all 0.3s ease';
+            document.body.style.opacity = '0.8';
+            document.body.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                window.location.href = 'stage-selection.html';
+            }, 300);
+        }
+
+        function goToChat() {
+            // Add page transition animation
+            document.body.style.transition = 'all 0.3s ease';
+            document.body.style.opacity = '0.8';
+            document.body.style.transform = 'scale(0.95)';
+            
+            setTimeout(() => {
+                window.location.href = 'ai-chat.html';
+            }, 300);
+        }
+
+        // Page load animation
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add entrance animations
+            const heroElements = document.querySelectorAll('.hero-badge, .hero-title, .hero-subtitle, .cta-button');
+            heroElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    element.style.transition = 'all 0.8s ease';
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            
+            setTimeout(() => {
+                showMessage('Welcome to Pass Finder! 🔍', 'info', 3000);
+            }, 1000);
+            
+            // Ensure floating diary button is visible
+            const floatingBtn = document.getElementById('floatingDiaryBtn');
+            console.log('Floating diary button found:', !!floatingBtn);
+            
+            if (floatingBtn) {
+                console.log('Setting up floating diary button...');
+                floatingBtn.style.display = 'flex';
+                floatingBtn.style.zIndex = '999999';
+                floatingBtn.style.position = 'fixed';
+                floatingBtn.style.bottom = '30px';
+                floatingBtn.style.right = '30px';
+                floatingBtn.style.width = '80px';
+                floatingBtn.style.height = '80px';
+                floatingBtn.style.background = 'linear-gradient(135deg, #ff6b6b, #4ecdc4)';
+                floatingBtn.style.borderRadius = '50%';
+                floatingBtn.style.boxShadow = '0 10px 40px rgba(255, 107, 107, 0.4)';
+                floatingBtn.style.cursor = 'pointer';
+                floatingBtn.style.fontSize = '32px';
+                floatingBtn.style.color = 'white';
+                floatingBtn.style.border = '4px solid white';
+                floatingBtn.style.margin = '0';
+                floatingBtn.style.padding = '0';
+                floatingBtn.style.alignItems = 'center';
+                floatingBtn.style.justifyContent = 'center';
+                floatingBtn.style.animation = 'pulse 2s infinite';
+                console.log('Floating diary button setup complete');
+                
+                // Add hover effect
+                floatingBtn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                    this.style.boxShadow = '0 15px 50px rgba(255, 107, 107, 0.6)';
+                });
+                
+                floatingBtn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.boxShadow = '0 10px 40px rgba(255, 107, 107, 0.4)';
+                });
+            } else {
+                console.error('Floating diary button not found!');
+            }
+
+            // Initialize AI Chat
+            initializeAIChat();
+        });
+
+        // AI Chat Functions
+        let aiChatHistory = [];
+        let isAITyping = false;
+
+        function initializeAIChat() {
+            // Add welcome message
+            addAIChatMessage('Welcome to Pass Finder! I\'m your AI assistant, here to help you discover and develop your passions. What would you like to explore today?', 'ai');
+        }
+
+        function toggleAIChat() {
+            const modal = document.getElementById('aiChatModal');
+            if (modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            } else {
+                modal.style.display = 'flex';
+                scrollAIChatToBottom();
+            }
+        }
+
+        function addAIChatMessage(content, sender) {
+            const messagesContainer = document.getElementById('aiChatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `
+                display: flex;
+                margin-bottom: 20px;
+                ${sender === 'user' ? 'flex-direction: row-reverse;' : ''}
+            `;
+            
+            const time = new Date().toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            const avatar = sender === 'ai' ? '🤖' : '👤';
+            const avatarStyle = sender === 'ai' ? 
+                'background: linear-gradient(135deg, #8b5cf6, #ec4899);' : 
+                'background: linear-gradient(135deg, #10b981, #059669);';
+            
+            messageDiv.innerHTML = `
+                <div style="
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 18px;
+                    margin-right: 12px;
+                    flex-shrink: 0;
+                    color: white;
+                    ${avatarStyle}
+                    ${sender === 'user' ? 'margin-right: 0; margin-left: 12px;' : ''}
+                ">
+                    ${avatar}
+                </div>
+                <div style="flex: 1; max-width: 70%;">
+                    <div style="
+                        background: ${sender === 'user' ? 'linear-gradient(135deg, #8b5cf6, #ec4899)' : 'white'};
+                        color: ${sender === 'user' ? 'white' : '#374151'};
+                        padding: 12px 16px;
+                        border-radius: 18px;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        margin-bottom: 4px;
+                        border-bottom-${sender === 'user' ? 'right' : 'left'}-radius: 4px;
+                    ">
+                        ${formatAIChatMessage(content)}
+                    </div>
+                    <div style="
+                        font-size: 0.75rem;
+                        color: #6b7280;
+                        text-align: ${sender === 'user' ? 'left' : 'right'};
+                    ">${time}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            scrollAIChatToBottom();
+            
+            // Save to history
+            aiChatHistory.push({ content, sender, time });
+        }
+
+        function formatAIChatMessage(content) {
+            // Convert URLs to links
+            content = content.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: #4ade80;">$1</a>');
+            
+            // Convert line breaks to <br>
+            content = content.replace(/\n/g, '<br>');
+            
+            // Convert **text** to bold
+            content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            return content;
+        }
+
+        function sendAIChatMessage() {
+            const input = document.getElementById('aiChatInput');
+            const message = input.value.trim();
+            
+            if (!message || isAITyping) return;
+            
+            // Add user message
+            addAIChatMessage(message, 'user');
+            input.value = '';
+            
+            // Show typing indicator
+            showAITypingIndicator();
+            
+            // Generate AI response
+            setTimeout(() => {
+                hideAITypingIndicator();
+                const aiResponse = generateAIIntelligentResponse(message);
+                addAIChatMessage(aiResponse, 'ai');
+            }, 1000 + Math.random() * 2000);
+        }
+
+        function handleAIChatKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendAIChatMessage();
+            }
+        }
+
+        function showAITypingIndicator() {
+            isAITyping = true;
+            const messagesContainer = document.getElementById('aiChatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.style.cssText = `
+                display: flex;
+                margin-bottom: 20px;
+            `;
+            typingDiv.id = 'aiTypingIndicator';
+            
+            typingDiv.innerHTML = `
+                <div style="
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 18px;
+                    margin-right: 12px;
+                    flex-shrink: 0;
+                    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+                    color: white;
+                ">🤖</div>
+                <div style="flex: 1;">
+                    <div style="
+                        background: white;
+                        padding: 12px 16px;
+                        border-radius: 18px;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        margin-bottom: 4px;
+                        border-bottom-left-radius: 4px;
+                    ">
+                        <div style="display: flex; gap: 4px; padding: 12px 16px;">
+                            <div style="
+                                width: 8px;
+                                height: 8px;
+                                border-radius: 50%;
+                                background: #8b5cf6;
+                                animation: typing 1.4s infinite ease-in-out;
+                            "></div>
+                            <div style="
+                                width: 8px;
+                                height: 8px;
+                                border-radius: 50%;
+                                background: #8b5cf6;
+                                animation: typing 1.4s infinite ease-in-out;
+                                animation-delay: -0.16s;
+                            "></div>
+                            <div style="
+                                width: 8px;
+                                height: 8px;
+                                border-radius: 50%;
+                                background: #8b5cf6;
+                                animation: typing 1.4s infinite ease-in-out;
+                                animation-delay: -0.32s;
+                            "></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(typingDiv);
+            scrollAIChatToBottom();
+        }
+
+        function hideAITypingIndicator() {
+            isAITyping = false;
+            const typingIndicator = document.getElementById('aiTypingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function generateAIIntelligentResponse(userMessage) {
+            // Simple AI response logic
+            if (userMessage.includes('programming') || userMessage.includes('code')) {
+                return `**Programming Learning Plan** 🖥️
+
+Based on your interest in programming, here's a personalized plan:
+
+**Daily Tasks:**
+• Watch a 5-minute programming video daily
+• Practice one coding exercise
+
+**Weekly Goals:**
+• Learn one programming concept per week
+• Complete one small project
+
+**Recommended Resources:**
+• YouTube programming tutorials
+• freeCodeCamp
+• LeetCode easy problems
+
+**Learning Tips:**
+• Start with HTML/CSS, then JavaScript
+• Keep a learning journal
+• Join programming communities
+• Don't be afraid to make mistakes
+
+Which programming language would you like to start with?`;
+            }
+            
+            if (userMessage.includes('art') || userMessage.includes('drawing')) {
+                return `**Art Learning Plan** 🎨
+
+Your personalized art learning plan:
+
+**Daily Tasks:**
+• Draw a simple sketch or doodle daily
+• Practice basic drawing techniques
+
+**Weekly Goals:**
+• Complete one small artwork per week
+• Learn one new art technique
+
+**Recommended Resources:**
+• Pinterest art inspiration
+• YouTube drawing tutorials
+• Procreate tutorials
+
+**Learning Tips:**
+• Start with simple geometric shapes
+• Observe objects in daily life
+• Don't pursue perfection, enjoy the process
+• Try digital art (iPad + Procreate)
+
+Which art style would you like to explore?`;
+            }
+            
+            if (userMessage.includes('music') || userMessage.includes('instrument')) {
+                return `**Music Learning Plan** 🎵
+
+Your personalized music learning plan:
+
+**Daily Tasks:**
+• Listen to one new song daily
+• Practice basic music theory
+
+**Weekly Goals:**
+• Learn one simple song per week
+• Practice scales daily
+
+**Recommended Resources:**
+• Spotify/Apple Music
+• YouTube music tutorials
+• Local music classes
+
+**Beginner Instruments:**
+• Ukulele (easiest)
+• Harmonica
+• Keyboard
+• Guitar
+
+Which instrument interests you most?`;
+            }
+            
+            if (userMessage.includes('fitness') || userMessage.includes('exercise')) {
+                return `**Fitness Plan** 💪
+
+Your personalized fitness plan:
+
+**Daily Tasks:**
+• Do 15 minutes of cardio daily
+• Practice basic exercises
+
+**Weekly Goals:**
+• Complete 3 full workouts per week
+• Try one new exercise
+
+**Recommended Resources:**
+• Nike Training Club
+• YouTube fitness videos
+• Local gym classes
+
+**Beginner Exercises:**
+• Walking/Jogging
+• Jump rope
+• Push-ups/Squats
+• Yoga/Stretching
+
+Which type of exercise would you like to start with?`;
+            }
+            
+            // Default response
+            return `Thank you for sharing! I understand your interests.
+
+Exploration is a process, and everyone has their own pace. What's important is maintaining curiosity and an open mind.
+
+Based on what you've mentioned, I suggest you can:
+• Start with areas that interest you
+• Create a simple and feasible plan
+• Invest a little time every day
+• Don't be afraid to try new things
+
+Is there anything specific you'd like to explore? I can help you create a personalized plan!`;
+        }
+
+        function scrollAIChatToBottom() {
+            const messagesContainer = document.getElementById('aiChatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+    </script>
+</body>
+</html>

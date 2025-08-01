@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Chat - Path Finder</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+        }
+        .container {
+            min-height: 100vh;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .back-btn, .home-btn {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        .main-content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 4px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .nav-tab {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+        }
+        .nav-tab.active {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        .nav-tab:hover:not(.active) {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        .section {
+            display: none;
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section.active {
+            display: block;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .section-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .new-post-btn {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .post-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            margin-bottom: 16px;
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+        }
+        .post-username {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+        .post-time {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .post-content {
+            margin-bottom: 16px;
+            line-height: 1.6;
+            color: #374151;
+        }
+        .post-actions {
+            display: flex;
+            gap: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+        .action-btn:hover {
+            background-color: #f3f4f6;
+            color: #8b5cf6;
+        }
+        .message-item, .group-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 12px;
+        }
+        .message-item:hover, .group-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        .avatar-emoji {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+        }
+        .message-info, .group-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .message-name, .group-name {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+        }
+        .message-time, .group-time {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .message-preview, .group-preview {
+            color: #6b7280;
+            font-size: 13px;
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* Comments Section */
+        .comments-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .comment-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .comment-item:hover {
+            background-color: #f9fafb;
+        }
+        
+        .comment-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            flex-shrink: 0;
+        }
+        
+        .comment-content {
+            flex: 1;
+        }
+        
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        
+        .comment-username {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 13px;
+        }
+        
+        .comment-time {
+            font-size: 11px;
+            color: #6b7280;
+        }
+        
+        .comment-text {
+            color: #374151;
+            font-size: 13px;
+            line-height: 1.4;
+            margin: 0;
+        }
+        
+        .comment-input-container {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 12px;
+        }
+        
+        .comment-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 20px;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+        
+        .comment-input:focus {
+            border-color: #8b5cf6;
+        }
+        
+        .comment-send-btn {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .comment-send-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        /* Like button animation */
+        .action-btn.liked .like-icon {
+            color: #ef4444;
+            animation: heartBeat 0.3s ease;
+        }
+        
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Diary Widget Styles */
+        .diary-widget {
+            position: fixed !important;
+            bottom: 30px !important;
+            right: 30px !important;
+            width: 60px !important;
+            height: 60px !important;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899) !important;
+            border-radius: 50% !important;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3) !important;
+            cursor: pointer !important;
+            z-index: 9999 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 24px !important;
+            color: white !important;
+            transition: all 0.3s ease !important;
+            animation: float 3s ease-in-out infinite !important;
+        }
+        
+        .diary-widget:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.4);
+        }
+        
+        .diary-modal {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.5) !important;
+            z-index: 9998 !important;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .diary-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideInUp 0.3s ease;
+        }
+        
+        .diary-header {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .diary-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .diary-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+        
+        .diary-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .diary-body {
+            padding: 20px;
+        }
+        
+        .diary-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 4px;
+        }
+        
+        .diary-tab {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            transition: all 0.3s ease;
+        }
+        
+        .diary-tab.active {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .diary-tab:hover:not(.active) {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        
+        .diary-section {
+            display: none;
+        }
+        
+        .diary-section.active {
+            display: block;
+        }
+        
+        .diary-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s ease;
+            margin-bottom: 16px;
+        }
+        
+        .diary-input:focus {
+            border-color: #8b5cf6;
+        }
+        
+        .diary-input::placeholder {
+            color: #9ca3af;
+        }
+        
+        .diary-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .diary-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .diary-btn.primary {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+        }
+        
+        .diary-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .diary-btn.secondary {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .diary-btn.secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .diary-entries {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .diary-entry {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .entry-date {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .entry-type {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .entry-type.mood {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        
+        .entry-type.plan {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+        
+        .entry-content {
+            color: #374151;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .mood-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+        
+        .mood-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #e5e7eb;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mood-btn:hover {
+            transform: scale(1.1);
+            border-color: #8b5cf6;
+        }
+        
+        .mood-btn.selected {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        .plan-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .plan-input {
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+        
+        .plan-input:focus {
+            border-color: #8b5cf6;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideOutDown {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+        
+        /* Responsive Design for Diary */
+        @media (max-width: 768px) {
+            .diary-widget {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .diary-content {
+                width: 95%;
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div>
+                    <button class="back-btn" onclick="goBack()">← Back</button>
+                    <button class="home-btn" onclick="goHome()">🏠 Home</button>
+                </div>
+                <div class="header-title">
+                    💬 Community Chat
+                </div>
+                <div>
+                    <button class="back-btn" onclick="toggleMenu()">☰ Menu</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="switchSection('posts-section')">
+                    <span>📝</span>
+                    Posts
+                </button>
+                <button class="nav-tab" onclick="switchSection('messages-section')">
+                    <span>💬</span>
+                    Messages
+                </button>
+                <button class="nav-tab" onclick="switchSection('groups-section')">
+                    <span>👥</span>
+                    Groups
+                </button>
+            </div>
+
+            <div id="posts-section" class="section active">
+                <div class="section-header">
+                    <h2>Community Posts</h2>
+                    <button class="new-post-btn" onclick="showNewPostForm()">+ New Post</button>
+                </div>
+                
+                <div id="postsContainer">
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="post-avatar">🎨</div>
+                            <div>
+                                <div class="post-username">Sarah</div>
+                                <div class="post-time">2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p>Just finished my first digital art piece! The expression workshop really helped me find my voice. What do you think?</p>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn" onclick="likePost(this, 'post1')">
+                                <span class="like-icon">❤️</span>
+                                <span class="like-count">12</span>
+                            </button>
+                            <button class="action-btn" onclick="toggleComments('post1')">
+                                <span>💬</span>
+                                <span class="comment-count">3</span>
+                            </button>
+                            <button class="action-btn" onclick="sharePost('post1')">
+                                <span>📤</span>
+                            </button>
+                        </div>
+                        <div class="comments-section" id="comments-post1" style="display: none;">
+                            <div class="comment-item">
+                                <div class="comment-avatar">🎭</div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-username">Mike</span>
+                                        <span class="comment-time">1 hour ago</span>
+                                    </div>
+                                    <p class="comment-text">This is amazing! The colors are so vibrant! 🌈</p>
+                                </div>
+                            </div>
+                            <div class="comment-item">
+                                <div class="comment-avatar">✨</div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-username">Emma</span>
+                                        <span class="comment-time">30 min ago</span>
+                                    </div>
+                                    <p class="comment-text">Love the composition! What software did you use?</p>
+                                </div>
+                            </div>
+                            <div class="comment-input-container">
+                                <input type="text" class="comment-input" placeholder="Write a comment..." onkeypress="handleCommentKeypress(event, 'post1')">
+                                <button class="comment-send-btn" onclick="sendComment('post1')">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="post-avatar">🎭</div>
+                            <div>
+                                <div class="post-username">Mike</div>
+                                <div class="post-time">4 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            <p>Anyone else trying the new expression workshop? I'm struggling with choosing what emotion to express. Any tips? 🤔</p>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn" onclick="likePost(this, 'post2')">
+                                <span class="like-icon">❤️</span>
+                                <span class="like-count">8</span>
+                            </button>
+                            <button class="action-btn" onclick="toggleComments('post2')">
+                                <span>💬</span>
+                                <span class="comment-count">2</span>
+                            </button>
+                            <button class="action-btn" onclick="sharePost('post2')">
+                                <span>📤</span>
+                            </button>
+                        </div>
+                        <div class="comments-section" id="comments-post2" style="display: none;">
+                            <div class="comment-item">
+                                <div class="comment-avatar">🎨</div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-username">Sarah</span>
+                                        <span class="comment-time">3 hours ago</span>
+                                    </div>
+                                    <p class="comment-text">Try starting with a simple emotion like "calm" or "excited" - it really helps! 😊</p>
+                                </div>
+                            </div>
+                            <div class="comment-item">
+                                <div class="comment-avatar">✨</div>
+                                <div class="comment-content">
+                                    <div class="comment-header">
+                                        <span class="comment-username">Emma</span>
+                                        <span class="comment-time">2 hours ago</span>
+                                    </div>
+                                    <p class="comment-text">I found that thinking about a specific moment in your life helps! What makes you feel most alive? ✨</p>
+                                </div>
+                            </div>
+                            <div class="comment-input-container">
+                                <input type="text" class="comment-input" placeholder="Write a comment..." onkeypress="handleCommentKeypress(event, 'post2')">
+                                <button class="comment-send-btn" onclick="sendComment('post2')">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="messages-section" class="section">
+                <div class="section-header">
+                    <h2>Direct Messages</h2>
+                    <button class="new-post-btn" onclick="showNewChatForm()">+ New Chat</button>
+                </div>
+                
+                <div id="messagesList">
+                    <div class="message-item" onclick="openChat('sarah')">
+                        <div class="avatar-emoji">🎨</div>
+                        <div class="message-info">
+                            <div class="message-name">Sarah</div>
+                            <div class="message-time">2 min ago</div>
+                            <p class="message-preview">Thanks for the feedback on my artwork! 🙏</p>
+                        </div>
+                    </div>
+                    
+                    <div class="message-item" onclick="openChat('mike')">
+                        <div class="avatar-emoji">🎭</div>
+                        <div class="message-info">
+                            <div class="message-name">Mike</div>
+                            <div class="message-time">1 hour ago</div>
+                            <p class="message-preview">Can you help me with the expression workshop?</p>
+                        </div>
+                    </div>
+                    
+                    <div class="message-item" onclick="openChat('emma')">
+                        <div class="avatar-emoji">✨</div>
+                        <div class="message-info">
+                            <div class="message-name">Emma</div>
+                            <div class="message-time">3 hours ago</div>
+                            <p class="message-preview">Love your latest post! The colors are amazing 🎨</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="groups-section" class="section">
+                <div class="section-header">
+                    <h2>Groups</h2>
+                    <button class="new-post-btn" onclick="showNewGroupForm()">+ New Group</button>
+                </div>
+                
+                <div id="groupsList">
+                    <div class="group-item" onclick="openGroup('beginners')">
+                        <div class="avatar-emoji">👥</div>
+                        <div class="group-info">
+                            <div class="group-name">Digital Art Beginners</div>
+                            <div class="group-time">5 min ago</div>
+                            <p class="group-preview">Sarah: Just shared my first artwork! 🎨</p>
+                        </div>
+                    </div>
+                    
+                    <div class="group-item" onclick="openGroup('workshop')">
+                        <div class="avatar-emoji">🎨</div>
+                        <div class="group-info">
+                            <div class="group-name">Expression Workshop</div>
+                            <div class="group-time">1 hour ago</div>
+                            <p class="group-preview">Mike: Anyone else struggling with emotions?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Diary Widget -->
+    <div class="diary-widget" onclick="toggleDiary()">
+        📝
+    </div>
+
+    <!-- Diary Modal -->
+    <div class="diary-modal" id="diaryModal">
+        <div class="diary-content">
+            <div class="diary-header">
+                <h3 class="diary-title">我的日记</h3>
+                <button class="diary-close" onclick="closeDiary()">×</button>
+            </div>
+            
+            <div class="diary-body">
+                <div class="diary-tabs">
+                    <button class="diary-tab active" onclick="switchTab('mood')">😊 心情</button>
+                    <button class="diary-tab" onclick="switchTab('plan')">📋 计划</button>
+                    <button class="diary-tab" onclick="switchTab('history')">📚 回顾</button>
+                </div>
+                
+                <!-- Mood Section -->
+                <div id="mood-section" class="diary-section active">
+                    <div class="mood-selector">
+                        <button class="mood-btn" onclick="selectMood('😊')" data-mood="😊">😊</button>
+                        <button class="mood-btn" onclick="selectMood('😄')" data-mood="😄">😄</button>
+                        <button class="mood-btn" onclick="selectMood('😌')" data-mood="😌">😌</button>
+                        <button class="mood-btn" onclick="selectMood('🤔')" data-mood="🤔">🤔</button>
+                        <button class="mood-btn" onclick="selectMood('😔')" data-mood="😔">😔</button>
+                        <button class="mood-btn" onclick="selectMood('😤')" data-mood="😤">😤</button>
+                    </div>
+                    
+                    <textarea class="diary-input" id="mood-input" placeholder="今天感觉怎么样？有什么想说的吗？" rows="4"></textarea>
+                    
+                    <div class="diary-actions">
+                        <button class="diary-btn primary" onclick="saveMood()">保存心情</button>
+                        <button class="diary-btn secondary" onclick="clearMood()">清空</button>
+                    </div>
+                </div>
+                
+                <!-- Plan Section -->
+                <div id="plan-section" class="diary-section">
+                    <div class="plan-inputs">
+                        <input type="text" class="plan-input" id="plan-title" placeholder="计划标题">
+                        <textarea class="diary-input" id="plan-content" placeholder="详细描述你的计划..." rows="4"></textarea>
+                    </div>
+                    
+                    <div class="diary-actions">
+                        <button class="diary-btn primary" onclick="savePlan()">保存计划</button>
+                        <button class="diary-btn secondary" onclick="clearPlan()">清空</button>
+                    </div>
+                </div>
+                
+                <!-- History Section -->
+                <div id="history-section" class="diary-section">
+                    <div class="diary-entries" id="diaryEntries">
+                        <!-- Entries will be loaded here -->
+                    </div>
+                    
+                    <div class="diary-actions">
+                        <button class="diary-btn secondary" onclick="clearHistory()">清空历史</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchSection(sectionId) {
+            console.log('Switching to section:', sectionId);
+            
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                console.log('Section activated:', sectionId);
+            } else {
+                console.error('Section not found:', sectionId);
+            }
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function goBack() {
+            console.log('Going back...');
+            document.body.style.transition = "all 0.3s ease";
+            document.body.style.opacity = "0.8";
+            document.body.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                window.location.href = "next-steps.html";
+            }, 300);
+        }
+
+        function goHome() {
+            console.log('Going home...');
+            document.body.style.transition = "all 0.3s ease";
+            document.body.style.opacity = "0.8";
+            document.body.style.transform = "scale(0.95)";
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 300);
+        }
+
+        function toggleMenu() {
+            console.log('Toggle menu...');
+            alert('Menu options coming soon!');
+        }
+
+        function showNewPostForm() {
+            console.log('Show new post form...');
+            alert('New post feature coming soon!');
+        }
+
+        function showNewChatForm() {
+            console.log('Show new chat form...');
+            alert('New chat feature coming soon!');
+        }
+
+        function showNewGroupForm() {
+            console.log('Show new group form...');
+            alert('New group feature coming soon!');
+        }
+
+        // Interactive functions
+        function likePost(button, postId) {
+            const likeIcon = button.querySelector('.like-icon');
+            const likeCount = button.querySelector('.like-count');
+            const currentCount = parseInt(likeCount.textContent);
+            
+            if (button.classList.contains('liked')) {
+                // Unlike
+                button.classList.remove('liked');
+                likeCount.textContent = currentCount - 1;
+                showMessage('Post unliked', 'info', 1500);
+            } else {
+                // Like
+                button.classList.add('liked');
+                likeCount.textContent = currentCount + 1;
+                showMessage('Post liked! ❤️', 'success', 1500);
+            }
+        }
+
+        function toggleComments(postId) {
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            if (commentsSection.style.display === 'none') {
+                commentsSection.style.display = 'block';
+                commentsSection.style.animation = 'slideDown 0.3s ease';
+                showMessage('Comments opened', 'info', 1000);
+            } else {
+                commentsSection.style.display = 'none';
+                showMessage('Comments closed', 'info', 1000);
+            }
+        }
+
+        function sharePost(postId) {
+            showMessage('Post shared! 📤', 'success', 2000);
+        }
+
+        function handleCommentKeypress(event, postId) {
+            if (event.key === 'Enter') {
+                sendComment(postId);
+            }
+        }
+
+        function sendComment(postId) {
+            const input = event.target.previousElementSibling || event.target.parentElement.querySelector('.comment-input');
+            const commentText = input.value.trim();
+            
+            if (commentText === '') {
+                showMessage('Please write a comment!', 'error', 2000);
+                return;
+            }
+            
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            const commentsList = commentsSection.querySelector('.comment-item').parentNode;
+            
+            // Create new comment
+            const newComment = document.createElement('div');
+            newComment.className = 'comment-item';
+            newComment.innerHTML = `
+                <div class="comment-avatar">😊</div>
+                <div class="comment-content">
+                    <div class="comment-header">
+                        <span class="comment-username">You</span>
+                        <span class="comment-time">Just now</span>
+                    </div>
+                    <p class="comment-text">${commentText}</p>
+                </div>
+            `;
+            
+            // Insert before the input container
+            const inputContainer = commentsSection.querySelector('.comment-input-container');
+            commentsList.insertBefore(newComment, inputContainer);
+            
+            // Clear input
+            input.value = '';
+            
+            // Update comment count
+            const commentCount = document.querySelector(`[onclick="toggleComments('${postId}')"] .comment-count`);
+            const currentCount = parseInt(commentCount.textContent);
+            commentCount.textContent = currentCount + 1;
+            
+            showMessage('Comment posted! 💬', 'success', 1500);
+        }
+
+        function showMessage(message, type = 'info', duration = 3000) {
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${type}`;
+            messageElement.textContent = message;
+            messageElement.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 24px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 1000;
+                animation: slideInRight 0.3s ease;
+            `;
+            
+            if (type === 'success') {
+                messageElement.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            } else if (type === 'error') {
+                messageElement.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+            } else {
+                messageElement.style.background = 'linear-gradient(135deg, #8b5cf6, #ec4899)';
+            }
+            
+            document.body.appendChild(messageElement);
+            
+            setTimeout(() => {
+                messageElement.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(messageElement);
+                }, 300);
+            }, duration);
+        }
+
+        // Chat and Group functions
+        function openChat(userId) {
+            const users = {
+                'sarah': { name: 'Sarah', avatar: '🎨' },
+                'mike': { name: 'Mike', avatar: '🎭' },
+                'emma': { name: 'Emma', avatar: '✨' }
+            };
+            
+            const user = users[userId];
+            if (!user) return;
+            
+            showMessage(`Opening chat with ${user.name}...`, 'info', 1500);
+            
+            // Simulate opening chat (in a real app, this would open a chat interface)
+            setTimeout(() => {
+                const messages = [
+                    `${user.name}: Hi there! How are you doing?`,
+                    `You: I'm doing great! Just working on some new artwork`,
+                    `${user.name}: That sounds exciting! Can't wait to see it! 🎨`,
+                    `${user.name}: What software are you using?`,
+                    `You: I'm trying Procreate and it's amazing!`,
+                    `${user.name}: Procreate is fantastic! Have you tried the new brushes?`
+                ];
+                
+                let chatWindow = document.createElement('div');
+                chatWindow.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 400px;
+                    max-height: 500px;
+                    background: white;
+                    border-radius: 16px;
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                    z-index: 10000;
+                    padding: 20px;
+                    overflow-y: auto;
+                `;
+                
+                chatWindow.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0;">Chat with ${user.name}</h3>
+                        <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 24px; cursor: pointer;">×</button>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        ${messages.map(msg => `<p style="margin: 8px 0; padding: 8px; background: #f3f4f6; border-radius: 8px;">${msg}</p>`).join('')}
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" placeholder="Type a message..." style="flex: 1; padding: 8px; border: 1px solid #d1d5db; border-radius: 8px;">
+                        <button onclick="sendChatMessage(this)" style="background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border: none; padding: 8px 16px; border-radius: 8px;">Send</button>
+                    </div>
+                `;
+                
+                document.body.appendChild(chatWindow);
+            }, 1500);
+        }
+
+        function openGroup(groupId) {
+            const groups = {
+                'beginners': { name: 'Digital Art Beginners', avatar: '👥' },
+                'workshop': { name: 'Expression Workshop', avatar: '🎨' }
+            };
+            
+            const group = groups[groupId];
+            if (!group) return;
+            
+            showMessage(`Opening ${group.name}...`, 'info', 1500);
+            
+            // Simulate opening group chat
+            setTimeout(() => {
+                const messages = [
+                    `Sarah: Just shared my first artwork! 🎨`,
+                    `Mike: This is amazing! The colors are so vibrant! 🌈`,
+                    `Emma: Love the composition! What software did you use?`,
+                    `You: Great work Sarah! Keep it up! 👏`,
+                    `Sarah: Thanks everyone! I used Procreate`,
+                    `Mike: Anyone else trying the new expression workshop?`
+                ];
+                
+                let groupWindow = document.createElement('div');
+                groupWindow.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 500px;
+                    max-height: 600px;
+                    background: white;
+                    border-radius: 16px;
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                    z-index: 10000;
+                    padding: 20px;
+                    overflow-y: auto;
+                `;
+                
+                groupWindow.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="margin: 0;">${group.name}</h3>
+                        <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; font-size: 24px; cursor: pointer;">×</button>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        ${messages.map(msg => `<p style="margin: 8px 0; padding: 8px; background: #f3f4f6; border-radius: 8px;">${msg}</p>`).join('')}
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" placeholder="Type a message..." style="flex: 1; padding: 8px; border: 1px solid #d1d5db; border-radius: 8px;">
+                        <button onclick="sendGroupMessage(this)" style="background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border: none; padding: 8px 16px; border-radius: 8px;">Send</button>
+                    </div>
+                `;
+                
+                document.body.appendChild(groupWindow);
+            }, 1500);
+        }
+
+        function sendChatMessage(button) {
+            const input = button.previousElementSibling;
+            const message = input.value.trim();
+            
+            if (message === '') return;
+            
+            const chatWindow = button.closest('div');
+            const messagesContainer = chatWindow.querySelector('div:nth-child(2)');
+            
+            const newMessage = document.createElement('p');
+            newMessage.style.cssText = 'margin: 8px 0; padding: 8px; background: #e5e7eb; border-radius: 8px; text-align: right;';
+            newMessage.textContent = `You: ${message}`;
+            
+            messagesContainer.appendChild(newMessage);
+            input.value = '';
+            
+            // Simulate reply
+            setTimeout(() => {
+                const reply = document.createElement('p');
+                reply.style.cssText = 'margin: 8px 0; padding: 8px; background: #f3f4f6; border-radius: 8px;';
+                reply.textContent = 'Thanks for your message! I\'ll reply soon. 😊';
+                messagesContainer.appendChild(reply);
+            }, 1000);
+        }
+
+        function sendGroupMessage(button) {
+            const input = button.previousElementSibling;
+            const message = input.value.trim();
+            
+            if (message === '') return;
+            
+            const groupWindow = button.closest('div');
+            const messagesContainer = groupWindow.querySelector('div:nth-child(2)');
+            
+            const newMessage = document.createElement('p');
+            newMessage.style.cssText = 'margin: 8px 0; padding: 8px; background: #e5e7eb; border-radius: 8px; text-align: right;';
+            newMessage.textContent = `You: ${message}`;
+            
+            messagesContainer.appendChild(newMessage);
+            input.value = '';
+            
+            // Simulate group reply
+            setTimeout(() => {
+                const reply = document.createElement('p');
+                reply.style.cssText = 'margin: 8px 0; padding: 8px; background: #f3f4f6; border-radius: 8px;';
+                reply.textContent = 'Great message! 👍';
+                messagesContainer.appendChild(reply);
+            }, 1500);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Community chat page loaded successfully!');
+            
+            // Check if elements exist
+            const postsSection = document.getElementById('posts-section');
+            const messagesSection = document.getElementById('messages-section');
+            const groupsSection = document.getElementById('groups-section');
+            const navTabs = document.querySelector('.nav-tabs');
+            const diaryWidget = document.querySelector('.diary-widget');
+            
+            console.log('Posts section exists:', !!postsSection);
+            console.log('Messages section exists:', !!messagesSection);
+            console.log('Groups section exists:', !!groupsSection);
+            console.log('Nav tabs exist:', !!navTabs);
+            console.log('Diary widget exists:', !!diaryWidget);
+            
+            // Ensure diary widget is visible
+            if (diaryWidget) {
+                console.log('Diary widget found, ensuring visibility...');
+                diaryWidget.style.display = 'flex';
+                diaryWidget.style.zIndex = '9999';
+                diaryWidget.style.position = 'fixed';
+                diaryWidget.style.bottom = '30px';
+                diaryWidget.style.right = '30px';
+            } else {
+                console.error('Diary widget not found!');
+            }
+        });
+
+        // Diary Functions
+        let selectedMood = '';
+        let diaryEntries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+        
+        function toggleDiary() {
+            const modal = document.getElementById('diaryModal');
+            if (modal.style.display === 'flex') {
+                closeDiary();
+            } else {
+                openDiary();
+            }
+        }
+        
+        function openDiary() {
+            const modal = document.getElementById('diaryModal');
+            modal.style.display = 'flex';
+            loadHistory();
+        }
+        
+        function closeDiary() {
+            const modal = document.getElementById('diaryModal');
+            modal.style.animation = 'slideOutDown 0.3s ease';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.animation = '';
+            }, 300);
+        }
+        
+        function switchTab(tabName) {
+            // Hide all sections
+            document.querySelectorAll('.diary-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.diary-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(`${tabName}-section`).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        function selectMood(mood) {
+            selectedMood = mood;
+            
+            // Remove selected class from all mood buttons
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked button
+            event.target.classList.add('selected');
+        }
+        
+        function saveMood() {
+            const content = document.getElementById('mood-input').value.trim();
+            const mood = selectedMood;
+            
+            if (!mood) {
+                alert('请选择一个心情！');
+                return;
+            }
+            
+            if (!content) {
+                alert('请写下你的感受！');
+                return;
+            }
+            
+            const entry = {
+                type: 'mood',
+                mood: mood,
+                content: content,
+                date: new Date().toLocaleString('zh-CN'),
+                timestamp: Date.now()
+            };
+            
+            diaryEntries.unshift(entry);
+            saveToStorage();
+            
+            showMessage('心情已保存！😊', 'success', 2000);
+            clearMood();
+        }
+        
+        function clearMood() {
+            document.getElementById('mood-input').value = '';
+            selectedMood = '';
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+        }
+        
+        function savePlan() {
+            const title = document.getElementById('plan-title').value.trim();
+            const content = document.getElementById('plan-content').value.trim();
+            
+            if (!title) {
+                alert('请输入计划标题！');
+                return;
+            }
+            
+            if (!content) {
+                alert('请详细描述你的计划！');
+                return;
+            }
+            
+            const entry = {
+                type: 'plan',
+                title: title,
+                content: content,
+                date: new Date().toLocaleString('zh-CN'),
+                timestamp: Date.now()
+            };
+            
+            diaryEntries.unshift(entry);
+            saveToStorage();
+            
+            showMessage('计划已保存！📋', 'success', 2000);
+            clearPlan();
+        }
+        
+        function clearPlan() {
+            document.getElementById('plan-title').value = '';
+            document.getElementById('plan-content').value = '';
+        }
+        
+        function loadHistory() {
+            const container = document.getElementById('diaryEntries');
+            container.innerHTML = '';
+            
+            if (diaryEntries.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6b7280; padding: 20px;">还没有记录，开始写第一篇日记吧！</p>';
+                return;
+            }
+            
+            diaryEntries.forEach(entry => {
+                const entryElement = document.createElement('div');
+                entryElement.className = 'diary-entry';
+                
+                if (entry.type === 'mood') {
+                    entryElement.innerHTML = `
+                        <div class="entry-header">
+                            <span class="entry-date">${entry.date}</span>
+                            <span class="entry-type mood">心情</span>
+                        </div>
+                        <div style="font-size: 24px; margin: 8px 0;">${entry.mood}</div>
+                        <p class="entry-content">${entry.content}</p>
+                    `;
+                } else if (entry.type === 'plan') {
+                    entryElement.innerHTML = `
+                        <div class="entry-header">
+                            <span class="entry-date">${entry.date}</span>
+                            <span class="entry-type plan">计划</span>
+                        </div>
+                        <h4 style="margin: 8px 0; color: #1f2937;">${entry.title}</h4>
+                        <p class="entry-content">${entry.content}</p>
+                    `;
+                }
+                
+                container.appendChild(entryElement);
+            });
+        }
+        
+        function clearHistory() {
+            if (confirm('确定要清空所有历史记录吗？')) {
+                diaryEntries = [];
+                saveToStorage();
+                loadHistory();
+                showMessage('历史记录已清空！', 'info', 2000);
+            }
+        }
+        
+        function saveToStorage() {
+            localStorage.setItem('diaryEntries', JSON.stringify(diaryEntries));
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('diaryModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDiary();
+            }
+        });
+    </script>
+    <script src="chat.js"></script>
+</body>
+</html> 

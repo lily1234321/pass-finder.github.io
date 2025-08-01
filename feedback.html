@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Experience - Gentle Exploration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="feedback.css">
+    <link rel="stylesheet" href="micro-interactions.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <button class="back-btn hover-lift focus-ring" onclick="goBack()" data-tooltip="Back to execution page">
+                    <span>←</span> Back to Execution
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-title">
+                <h1 class="animate-fade-in">How did you feel about this experience...?</h1>
+                <p class="subtitle animate-fade-in" id="plan-subtitle">How did it feel?</p>
+            </div>
+
+            <!-- Feedback Options -->
+            <div class="feedback-options">
+                <div class="feedback-card hover-lift selection-ripple" data-feedback="love" onclick="selectFeedback('love')" data-tooltip="This direction suits me well">
+                    <div class="feedback-emoji">😍</div>
+                    <div class="feedback-text">
+                        <h3>I like it, want more</h3>
+                    </div>
+                    <div class="feedback-radio"></div>
+                </div>
+
+                <div class="feedback-card hover-lift selection-ripple" data-feedback="neutral" onclick="selectFeedback('neutral')" data-tooltip="It's okay, willing to try other things">
+                    <div class="feedback-emoji">🤔</div>
+                    <div class="feedback-text">
+                        <h3>It's okay, but I'm willing to try other things</h3>
+                    </div>
+                    <div class="feedback-radio"></div>
+                </div>
+
+                <div class="feedback-card hover-lift selection-ripple" data-feedback="dislike" onclick="selectFeedback('dislike')" data-tooltip="May not be suitable for me">
+                    <div class="feedback-emoji">🙁</div>
+                    <div class="feedback-text">
+                        <h3>Don't really like it, let's try a different direction</h3>
+                    </div>
+                    <div class="feedback-radio"></div>
+                </div>
+            </div>
+
+            <!-- Additional Notes -->
+            <div id="additional-notes" class="card additional-notes hover-lift" style="display: none;">
+                <h3>Want to say something? (Optional)</h3>
+                <textarea id="feedback-notes" class="focus-ring" placeholder="For example: I think this difficulty level is just right, or I hope next time I can..." oninput="validateFeedbackNotes(this)"></textarea>
+                <div class="char-count" id="feedback-char-count">0 characters</div>
+            </div>
+
+            <!-- Submit Button -->
+            <div id="submit-section" class="submit-section" style="display: none;">
+                <button class="submit-btn hover-glow animate-pulse focus-ring" onclick="submitFeedback()">
+                    See next suggestions →
+                </button>
+            </div>
+
+            <!-- Encouragement -->
+            <div class="encouragement animate-fade-in">
+                <p>💝 Every attempt is wonderful, no matter the result～</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="micro-interactions.js"></script>
+    <script src="feedback.js"></script>
+</body>
+</html>

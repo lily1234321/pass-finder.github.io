@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Diary Widget</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        h1 {
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            color: #6b7280;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        /* Diary Widget Styles */
+        .diary-widget {
+            position: fixed !important;
+            bottom: 30px !important;
+            right: 30px !important;
+            width: 60px !important;
+            height: 60px !important;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899) !important;
+            border-radius: 50% !important;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3) !important;
+            cursor: pointer !important;
+            z-index: 9999 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 24px !important;
+            color: white !important;
+            transition: all 0.3s ease !important;
+            animation: float 3s ease-in-out infinite !important;
+        }
+        
+        .diary-widget:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.4) !important;
+        }
+        
+        .diary-modal {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.5) !important;
+            z-index: 9998 !important;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .diary-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideInUp 0.3s ease;
+        }
+        
+        .diary-header {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .diary-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .diary-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+        
+        .diary-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .diary-body {
+            padding: 20px;
+        }
+        
+        .diary-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 4px;
+        }
+        
+        .diary-tab {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            transition: all 0.3s ease;
+        }
+        
+        .diary-tab.active {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .diary-tab:hover:not(.active) {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        
+        .diary-section {
+            display: none;
+        }
+        
+        .diary-section.active {
+            display: block;
+        }
+        
+        .diary-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s ease;
+            margin-bottom: 16px;
+        }
+        
+        .diary-input:focus {
+            border-color: #8b5cf6;
+        }
+        
+        .diary-input::placeholder {
+            color: #9ca3af;
+        }
+        
+        .diary-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .diary-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .diary-btn.primary {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+        }
+        
+        .diary-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        
+        .diary-btn.secondary {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .diary-btn.secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .diary-entries {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .diary-entry {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .entry-date {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .entry-type {
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .entry-type.mood {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+        
+        .entry-type.plan {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+        
+        .entry-content {
+            color: #374151;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .mood-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+        
+        .mood-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #e5e7eb;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mood-btn:hover {
+            transform: scale(1.1);
+            border-color: #8b5cf6;
+        }
+        
+        .mood-btn.selected {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        .plan-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .plan-input {
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+        
+        .plan-input:focus {
+            border-color: #8b5cf6;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideOutDown {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+        
+        /* Responsive Design for Diary */
+        @media (max-width: 768px) {
+            .diary-widget {
+                bottom: 20px !important;
+                right: 20px !important;
+                width: 50px !important;
+                height: 50px !important;
+                font-size: 20px !important;
+            }
+            
+            .diary-content {
+                width: 95%;
+                margin: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 日记小工具测试</h1>
+        <p>你应该能在右下角看到一个浮动的日记图标（📝）</p>
+        <p>点击它可以打开日记界面，记录你的心情和计划！</p>
+        <p>如果看不到图标，请检查浏览器控制台是否有错误信息。</p>
+    </div>
+
+    <!-- Diary Widget -->
+    <div class="diary-widget" onclick="toggleDiary()">
+        📝
+    </div>
+
+    <!-- Diary Modal -->
+    <div class="diary-modal" id="diaryModal">
+        <div class="diary-content">
+            <div class="diary-header">
+                <h3 class="diary-title">我的日记</h3>
+                <button class="diary-close" onclick="closeDiary()">×</button>
+            </div>
+            
+            <div class="diary-body">
+                <div class="diary-tabs">
+                    <button class="diary-tab active" onclick="switchTab('mood')">😊 心情</button>
+                    <button class="diary-tab" onclick="switchTab('plan')">📋 计划</button>
+                    <button class="diary-tab" onclick="switchTab('history')">📚 回顾</button>
+                </div>
+                
+                <!-- Mood Section -->
+                <div id="mood-section" class="diary-section active">
+                    <div class="mood-selector">
+                        <button class="mood-btn" onclick="selectMood('😊')" data-mood="😊">😊</button>
+                        <button class="mood-btn" onclick="selectMood('😄')" data-mood="😄">😄</button>
+                        <button class="mood-btn" onclick="selectMood('😌')" data-mood="😌">😌</button>
+                        <button class="mood-btn" onclick="selectMood('🤔')" data-mood="🤔">🤔</button>
+                        <button class="mood-btn" onclick="selectMood('😔')" data-mood="😔">😔</button>
+                        <button class="mood-btn" onclick="selectMood('😤')" data-mood="😤">😤</button>
+                    </div>
+                    
+                    <textarea class="diary-input" id="mood-input" placeholder="今天感觉怎么样？有什么想说的吗？" rows="4"></textarea>
+                    
+                    <div class="diary-actions">
+                        <button class="diary-btn primary" onclick="saveMood()">保存心情</button>
+                        <button class="diary-btn secondary" onclick="clearMood()">清空</button>
+                    </div>
+                </div>
+                
+                <!-- Plan Section -->
+                <div id="plan-section" class="diary-section">
+                    <div class="plan-inputs">
+                        <input type="text" class="plan-input" id="plan-title" placeholder="计划标题">
+                        <textarea class="diary-input" id="plan-content" placeholder="详细描述你的计划..." rows="4"></textarea>
+                    </div>
+                    
+                    <div class="diary-actions">
+                        <button class="diary-btn primary" onclick="savePlan()">保存计划</button>
+                        <button class="diary-btn secondary" onclick="clearPlan()">清空</button>
+                    </div>
+                </div>
+                
+                <!-- History Section -->
+                <div id="history-section" class="diary-section">
+                    <div class="diary-entries" id="diaryEntries">
+                        <!-- Entries will be loaded here -->
+                    </div>
+                    
+                    <div class="diary-actions">
+                        <button class="diary-btn secondary" onclick="clearHistory()">清空历史</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedMood = '';
+        let diaryEntries = JSON.parse(localStorage.getItem('diaryEntries') || '[]');
+        
+        function toggleDiary() {
+            const modal = document.getElementById('diaryModal');
+            if (modal.style.display === 'flex') {
+                closeDiary();
+            } else {
+                openDiary();
+            }
+        }
+        
+        function openDiary() {
+            const modal = document.getElementById('diaryModal');
+            modal.style.display = 'flex';
+            loadHistory();
+        }
+        
+        function closeDiary() {
+            const modal = document.getElementById('diaryModal');
+            modal.style.animation = 'slideOutDown 0.3s ease';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.animation = '';
+            }, 300);
+        }
+        
+        function switchTab(tabName) {
+            // Hide all sections
+            document.querySelectorAll('.diary-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.diary-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(`${tabName}-section`).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+        
+        function selectMood(mood) {
+            selectedMood = mood;
+            
+            // Remove selected class from all mood buttons
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked button
+            event.target.classList.add('selected');
+        }
+        
+        function saveMood() {
+            const content = document.getElementById('mood-input').value.trim();
+            const mood = selectedMood;
+            
+            if (!mood) {
+                alert('请选择一个心情！');
+                return;
+            }
+            
+            if (!content) {
+                alert('请写下你的感受！');
+                return;
+            }
+            
+            const entry = {
+                type: 'mood',
+                mood: mood,
+                content: content,
+                date: new Date().toLocaleString('zh-CN'),
+                timestamp: Date.now()
+            };
+            
+            diaryEntries.unshift(entry);
+            saveToStorage();
+            
+            alert('心情已保存！😊');
+            clearMood();
+        }
+        
+        function clearMood() {
+            document.getElementById('mood-input').value = '';
+            selectedMood = '';
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+        }
+        
+        function savePlan() {
+            const title = document.getElementById('plan-title').value.trim();
+            const content = document.getElementById('plan-content').value.trim();
+            
+            if (!title) {
+                alert('请输入计划标题！');
+                return;
+            }
+            
+            if (!content) {
+                alert('请详细描述你的计划！');
+                return;
+            }
+            
+            const entry = {
+                type: 'plan',
+                title: title,
+                content: content,
+                date: new Date().toLocaleString('zh-CN'),
+                timestamp: Date.now()
+            };
+            
+            diaryEntries.unshift(entry);
+            saveToStorage();
+            
+            alert('计划已保存！📋');
+            clearPlan();
+        }
+        
+        function clearPlan() {
+            document.getElementById('plan-title').value = '';
+            document.getElementById('plan-content').value = '';
+        }
+        
+        function loadHistory() {
+            const container = document.getElementById('diaryEntries');
+            container.innerHTML = '';
+            
+            if (diaryEntries.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6b7280; padding: 20px;">还没有记录，开始写第一篇日记吧！</p>';
+                return;
+            }
+            
+            diaryEntries.forEach(entry => {
+                const entryElement = document.createElement('div');
+                entryElement.className = 'diary-entry';
+                
+                if (entry.type === 'mood') {
+                    entryElement.innerHTML = `
+                        <div class="entry-header">
+                            <span class="entry-date">${entry.date}</span>
+                            <span class="entry-type mood">心情</span>
+                        </div>
+                        <div style="font-size: 24px; margin: 8px 0;">${entry.mood}</div>
+                        <p class="entry-content">${entry.content}</p>
+                    `;
+                } else if (entry.type === 'plan') {
+                    entryElement.innerHTML = `
+                        <div class="entry-header">
+                            <span class="entry-date">${entry.date}</span>
+                            <span class="entry-type plan">计划</span>
+                        </div>
+                        <h4 style="margin: 8px 0; color: #1f2937;">${entry.title}</h4>
+                        <p class="entry-content">${entry.content}</p>
+                    `;
+                }
+                
+                container.appendChild(entryElement);
+            });
+        }
+        
+        function clearHistory() {
+            if (confirm('确定要清空所有历史记录吗？')) {
+                diaryEntries = [];
+                saveToStorage();
+                loadHistory();
+                alert('历史记录已清空！');
+            }
+        }
+        
+        function saveToStorage() {
+            localStorage.setItem('diaryEntries', JSON.stringify(diaryEntries));
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('diaryModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDiary();
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Test diary page loaded!');
+            
+            const diaryWidget = document.querySelector('.diary-widget');
+            console.log('Diary widget exists:', !!diaryWidget);
+            
+            if (diaryWidget) {
+                console.log('Diary widget found, ensuring visibility...');
+                diaryWidget.style.display = 'flex';
+                diaryWidget.style.zIndex = '9999';
+                diaryWidget.style.position = 'fixed';
+                diaryWidget.style.bottom = '30px';
+                diaryWidget.style.right = '30px';
+            } else {
+                console.error('Diary widget not found!');
+            }
+        });
+    </script>
+</body>
+</html> 
