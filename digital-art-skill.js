@@ -91,7 +91,13 @@ function goBack() {
   document.body.style.transform = "scale(0.95)"
 
   setTimeout(() => {
-    window.location.href = "explore.html"
+    // Use browser history to go back to previous page
+    if (window.history.length > 1) {
+      window.history.back()
+    } else {
+      // Fallback to explore.html if no history
+      window.location.href = "explore.html"
+    }
   }, 300)
 }
 

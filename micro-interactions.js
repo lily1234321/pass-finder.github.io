@@ -188,7 +188,7 @@ class MicroInteractions {
 
   // 设置涟漪效果
   setupRippleEffects() {
-    const selectableElements = document.querySelectorAll(".age-card, .feeling-card, .plan-card")
+    const selectableElements = document.querySelectorAll(".age-card, .plan-card")
 
     selectableElements.forEach((element) => {
       element.addEventListener("click", (e) => {

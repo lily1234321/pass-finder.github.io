@@ -102,7 +102,10 @@ function completeQuestionnaire() {
   localStorage.setItem("userData", JSON.stringify(userData))
 
   // Show encouragement message
-  showEncouragementMessage()
+  // showEncouragementMessage()
+  
+  // Directly go to explore page
+  window.location.href = "explore.html"
 }
 
 function showEncouragementMessage() {

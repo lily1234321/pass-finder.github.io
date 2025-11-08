@@ -218,7 +218,13 @@ function goBack() {
   document.body.style.transform = "scale(0.95)"
 
   setTimeout(() => {
-    window.location.href = "execute.html"
+    // Use browser history to go back to previous page
+    if (window.history.length > 1) {
+      window.history.back()
+    } else {
+      // Fallback to execute.html if no history
+      window.location.href = "execute.html"
+    }
   }, 300)
 }
 

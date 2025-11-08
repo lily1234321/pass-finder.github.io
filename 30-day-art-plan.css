@@ -522,3 +522,106 @@
         color: #fef3c7;
     }
 } 
+
+/* Completion Animation Styles - Simplified */
+.challenge-card.completing {
+    transform: scale(1.02) !important;
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.challenge-card.completed {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)) !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2) !important;
+}
+
+.challenge-card.completed .challenge-title {
+    color: #10b981 !important;
+}
+
+.challenge-card.completed .challenge-description {
+    color: #059669 !important;
+}
+
+.challenge-status {
+    transition: all 0.3s ease !important;
+    display: inline-block !important;
+}
+
+/* Ripple Animation */
+@keyframes ripple-expand {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+    }
+}
+
+.completion-ripple {
+    animation: ripple-expand 0.6s ease-out !important;
+}
+
+/* Progress Bar Animation */
+.progress-fill {
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Stats Animation */
+.stat-number {
+    transition: all 0.3s ease;
+}
+
+/* Challenge Card Hover Effects */
+.challenge-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.challenge-card.completed:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+/* Button Animation */
+.btn-complete {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: white !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    font-weight: 500 !important;
+}
+
+.btn-complete:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3) !important;
+}
+
+.btn-complete:active {
+    transform: translateY(0) !important;
+}
+
+/* Celebration Animation */
+@keyframes celebration-bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.challenge-card.completed .challenge-status {
+    animation: celebration-bounce 0.6s ease-out !important;
+} 

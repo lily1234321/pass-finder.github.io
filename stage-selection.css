@@ -280,6 +280,7 @@
 .feeling-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: rgba(139, 92, 246, 0.3);
 }
 
 .feeling-card.selected {
@@ -287,6 +288,33 @@
   background: rgba(139, 92, 246, 0.05);
   transform: translateY(-2px);
   box-shadow: 0 15px 35px rgba(139, 92, 246, 0.15);
+}
+
+.feeling-card.selected:hover {
+  border-color: #7c3aed;
+  background: rgba(139, 92, 246, 0.08);
+  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+}
+
+.feeling-card.selected::before {
+  content: "Click to unselect";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.feeling-card.selected:hover::before {
+  opacity: 1;
 }
 
 .feeling-emoji {

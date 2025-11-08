@@ -5,7 +5,13 @@ function goBack() {
   document.body.style.opacity = "0.8";
   document.body.style.transform = "scale(0.95)";
   setTimeout(() => {
-    window.location.href = "feedback.html";
+    // Use browser history to go back to previous page
+    if (window.history.length > 1) {
+      window.history.back()
+    } else {
+      // Fallback to feedback.html if no history
+      window.location.href = "feedback.html";
+    }
   }, 300);
 }
 

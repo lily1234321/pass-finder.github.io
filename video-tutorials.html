@@ -41,92 +41,242 @@
 
             <!-- Tutorial Categories -->
             <div class="tutorial-categories">
-                <div class="category-card hover-lift" onclick="showTutorials('beginner')">
+                <div class="category-card hover-lift" onclick="showCategorySections('beginner')">
                     <div class="category-icon">🌱</div>
                     <div class="category-content">
                         <h3>Beginner Tutorials</h3>
                         <p>Perfect for those new to digital art</p>
-                        <span class="video-count">12 videos</span>
+                        <div class="category-sections">
+                            <span class="section-badge color-section">🎨 Color</span>
+                            <span class="section-badge line-section">✏️ Line</span>
+                        </div>
                     </div>
                     <div class="category-arrow">→</div>
                 </div>
 
-                <div class="category-card hover-lift" onclick="showTutorials('intermediate')">
+                <div class="category-card hover-lift" onclick="showCategorySections('intermediate')">
                     <div class="category-icon">🚀</div>
                     <div class="category-content">
                         <h3>Intermediate Tutorials</h3>
                         <p>Build on your existing skills</p>
-                        <span class="video-count">18 videos</span>
+                        <div class="category-sections">
+                            <span class="section-badge color-section">🎨 Color</span>
+                            <span class="section-badge line-section">✏️ Line</span>
+                        </div>
                     </div>
                     <div class="category-arrow">→</div>
                 </div>
 
-                <div class="category-card hover-lift" onclick="showTutorials('advanced')">
+                <div class="category-card hover-lift" onclick="showCategorySections('advanced')">
                     <div class="category-icon">⭐</div>
                     <div class="category-content">
                         <h3>Advanced Tutorials</h3>
                         <p>Master complex techniques</p>
-                        <span class="video-count">15 videos</span>
+                        <div class="category-sections">
+                            <span class="section-badge color-section">🎨 Color</span>
+                            <span class="section-badge line-section">✏️ Line</span>
+                        </div>
                     </div>
                     <div class="category-arrow">→</div>
                 </div>
 
-                <div class="category-card hover-lift" onclick="showTutorials('specialized')">
+                <div class="category-card hover-lift" onclick="showCategorySections('specialized')">
                     <div class="category-icon">🎯</div>
                     <div class="category-content">
                         <h3>Specialized Skills</h3>
                         <p>Character design, landscapes, portraits</p>
-                        <span class="video-count">20 videos</span>
+                        <div class="category-sections">
+                            <span class="section-badge color-section">🎨 Color</span>
+                            <span class="section-badge line-section">✏️ Line</span>
+                        </div>
                     </div>
                     <div class="category-arrow">→</div>
                 </div>
             </div>
 
-            <!-- Featured Tutorials -->
+            <!-- Category Sections Modal -->
+            <div id="categorySectionsModal" class="modal-overlay" style="display: none;">
+                <div class="modal-content category-sections-modal">
+                    <div class="modal-header">
+                        <h3 id="modalCategoryTitle">Category Sections</h3>
+                        <button class="modal-close" onclick="closeCategorySections()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="sections-grid">
+                            <div class="section-card color-section-card" onclick="showVideosInSection('color')">
+                                <div class="section-icon">🎨</div>
+                                <div class="section-content">
+                                    <h4>Color Techniques</h4>
+                                    <p>Master color theory, blending, and color harmony</p>
+                                    <div class="section-meta">
+                                        <span class="video-count">6 videos</span>
+                                        <span class="difficulty">🟢 Beginner</span>
+                                    </div>
+                                </div>
+                                <div class="section-arrow">→</div>
+                            </div>
+                            
+                            <div class="section-card line-section-card" onclick="showVideosInSection('line')">
+                                <div class="section-icon">✏️</div>
+                                <div class="section-content">
+                                    <h4>Line Work & Sketching</h4>
+                                    <p>Master line quality, sketching techniques, and line art</p>
+                                    <div class="section-meta">
+                                        <span class="video-count">6 videos</span>
+                                        <span class="difficulty">🟢 Beginner</span>
+                                    </div>
+                                </div>
+                                <div class="section-arrow">→</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Videos in Section Modal -->
+            <div id="videosInSectionModal" class="modal-overlay" style="display: none;">
+                <div class="modal-content videos-modal">
+                    <div class="modal-header">
+                        <h3 id="modalVideosTitle">Videos in Section</h3>
+                        <button class="modal-close" onclick="closeVideosInSection()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="videosGrid" class="videos-grid">
+                            <!-- Videos will be dynamically loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Tools & Resources -->
             <div class="featured-section">
-                <h2>🔥 Featured Tutorials</h2>
+                <h2>🛠️ Featured Tools & Resources</h2>
                 <div class="featured-tutorials">
-                    <div class="tutorial-card hover-lift" onclick="playVideo('tutorial1')">
+                    <div class="tutorial-card hover-lift" onclick="openResource('procreate')">
                         <div class="tutorial-thumbnail">
-                            <img src="https://via.placeholder.com/300x200/8b5cf6/ffffff?text=Digital+Art+Basics" alt="Digital Art Basics">
-                            <div class="play-button">▶️</div>
+                            <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1267?w=300&h=200&fit=crop&crop=center" alt="Procreate">
+                            <div class="play-button">🔗</div>
                         </div>
                         <div class="tutorial-info">
-                            <h4>Digital Art Basics: Getting Started</h4>
-                            <p>Learn the fundamentals of digital art tools and techniques</p>
+                            <h4>Procreate - Digital Art App</h4>
+                            <p>Professional drawing and painting app for iPad</p>
                             <div class="tutorial-meta">
-                                <span class="duration">⏱️ 15 min</span>
+                                <span class="duration">💰 $9.99</span>
                                 <span class="difficulty">🟢 Beginner</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="tutorial-card hover-lift" onclick="playVideo('tutorial2')">
+                    <div class="tutorial-card hover-lift" onclick="openResource('photoshop')">
                         <div class="tutorial-thumbnail">
-                            <img src="https://via.placeholder.com/300x200/ec4899/ffffff?text=Color+Theory" alt="Color Theory">
-                            <div class="play-button">▶️</div>
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop&crop=center" alt="Adobe Photoshop">
+                            <div class="play-button">🔗</div>
                         </div>
                         <div class="tutorial-info">
-                            <h4>Color Theory for Digital Artists</h4>
-                            <p>Master color harmony and create stunning artwork</p>
+                            <h4>Adobe Photoshop</h4>
+                            <p>Industry-standard digital art and photo editing</p>
                             <div class="tutorial-meta">
-                                <span class="duration">⏱️ 25 min</span>
+                                <span class="duration">💰 $20.99/month</span>
                                 <span class="difficulty">🟡 Intermediate</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="tutorial-card hover-lift" onclick="playVideo('tutorial3')">
+                    <div class="tutorial-card hover-lift" onclick="openResource('krita')">
                         <div class="tutorial-thumbnail">
-                            <img src="https://via.placeholder.com/300x200/10b981/ffffff?text=Character+Design" alt="Character Design">
-                            <div class="play-button">▶️</div>
+                            <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=300&h=200&fit=crop&crop=center" alt="Krita">
+                            <div class="play-button">🔗</div>
                         </div>
                         <div class="tutorial-info">
-                            <h4>Character Design Fundamentals</h4>
-                            <p>Create compelling characters from concept to final art</p>
+                            <h4>Krita - Free Digital Art</h4>
+                            <p>Free and open-source digital painting software</p>
                             <div class="tutorial-meta">
-                                <span class="duration">⏱️ 45 min</span>
+                                <span class="duration">🆓 Free</span>
+                                <span class="difficulty">🟢 Beginner</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card hover-lift" onclick="openResource('pinterest')">
+                        <div class="tutorial-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=200&fit=crop&crop=center" alt="Pinterest">
+                            <div class="play-button">🔗</div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h4>Pinterest - Art Inspiration</h4>
+                            <p>Discover millions of art references and ideas</p>
+                            <div class="tutorial-meta">
+                                <span class="duration">🆓 Free</span>
+                                <span class="difficulty">🟢 All Levels</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card hover-lift" onclick="openResource('artstation')">
+                        <div class="tutorial-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1549887534-1541e9326642?w=300&h=200&fit=crop&crop=center" alt="ArtStation">
+                            <div class="play-button">🔗</div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h4>ArtStation - Professional Portfolio</h4>
+                            <p>Showcase your art and discover professional work</p>
+                            <div class="tutorial-meta">
+                                <span class="duration">🆓 Free</span>
                                 <span class="difficulty">🔴 Advanced</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card hover-lift" onclick="openResource('deviantart')">
+                        <div class="tutorial-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1557683316-973673baf926?w=300&h=200&fit=crop&crop=center" alt="DeviantArt">
+                            <div class="play-button">🔗</div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h4>DeviantArt - Art Community</h4>
+                            <p>Connect with artists and share your artwork</p>
+                            <div class="tutorial-meta">
+                                <span class="duration">🆓 Free</span>
+                                <span class="difficulty">🟡 All Levels</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tutorial Sections Modal -->
+            <div id="tutorialSectionsModal" class="modal-overlay" style="display: none;">
+                <div class="modal-content tutorial-sections-modal">
+                    <div class="modal-header">
+                        <h3 id="modalTutorialTitle">Tutorial Sections</h3>
+                        <button class="modal-close" onclick="closeTutorialSections()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="sections-grid">
+                            <div class="section-card color-section-card" onclick="playVideoSection('color')">
+                                <div class="section-icon">🎨</div>
+                                <div class="section-content">
+                                    <h4>Color Techniques</h4>
+                                    <p>Learn color theory, blending, and color harmony</p>
+                                    <div class="section-meta">
+                                        <span class="duration">⏱️ 8 min</span>
+                                        <span class="difficulty">🟢 Beginner</span>
+                                    </div>
+                                </div>
+                                <div class="section-arrow">→</div>
+                            </div>
+                            
+                            <div class="section-card line-section-card" onclick="playVideoSection('line')">
+                                <div class="section-icon">✏️</div>
+                                <div class="section-content">
+                                    <h4>Line Work & Sketching</h4>
+                                    <p>Master line quality, sketching techniques, and line art</p>
+                                    <div class="section-meta">
+                                        <span class="duration">⏱️ 7 min</span>
+                                        <span class="difficulty">🟢 Beginner</span>
+                                    </div>
+                                </div>
+                                <div class="section-arrow">→</div>
                             </div>
                         </div>
                     </div>
@@ -136,28 +286,28 @@
             <!-- Quick Start Guide -->
             <div class="quick-start-section">
                 <div class="quick-start-card">
-                    <h3>🚀 Quick Start Guide</h3>
-                    <p>New to digital art? Start here!</p>
+                    <h3>🚀 Getting Started with Digital Art</h3>
+                    <p>New to digital art? Here's your roadmap!</p>
                     <div class="quick-steps">
                         <div class="step">
                             <span class="step-number">1</span>
-                            <span class="step-text">Choose your software (Procreate, Photoshop, etc.)</span>
+                            <span class="step-text">Choose your software (Procreate, Krita, Photoshop)</span>
                         </div>
                         <div class="step">
                             <span class="step-number">2</span>
-                            <span class="step-text">Watch "Digital Art Basics" tutorial</span>
+                            <span class="step-text">Get inspired on Pinterest and ArtStation</span>
                         </div>
                         <div class="step">
                             <span class="step-number">3</span>
-                            <span class="step-text">Practice with simple exercises</span>
+                            <span class="step-text">Start with beginner tutorials above</span>
                         </div>
                         <div class="step">
                             <span class="step-number">4</span>
-                            <span class="step-text">Build your skills progressively</span>
+                            <span class="step-text">Share your work on DeviantArt</span>
                         </div>
                     </div>
                     <button class="btn-primary hover-glow" onclick="startLearning()">
-                        Start Learning Now
+                        Start Your Digital Art Journey
                     </button>
                 </div>
             </div>

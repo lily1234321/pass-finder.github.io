@@ -137,11 +137,14 @@ function toggleFeeling(feeling) {
     selectedFeelings.splice(index, 1)
     card.classList.remove("selected")
 
-    // Remove animation
+    // Remove animation with clear feedback
     card.style.transform = "scale(0.95)"
     setTimeout(() => {
       card.style.transform = "scale(1)"
     }, 150)
+
+    // Show unselect message
+    showMessage("Feeling unselected", "info", 1500)
   } else {
     // Add feeling
     selectedFeelings.push(feeling)
@@ -172,6 +175,9 @@ function toggleFeeling(feeling) {
     card.appendChild(ripple)
 
     setTimeout(() => ripple.remove(), 600)
+
+    // Show selection message
+    showMessage("Feeling selected", "success", 1500)
   }
 
   // Update next step button state
@@ -187,7 +193,7 @@ function toggleFeeling(feeling) {
       nextBtn.style.transform = "translateY(0)"
     }, 100)
 
-    showMessage(`Selected ${selectedFeelings.length} feelings`, "success", 1500)
+    showMessage(`Selected ${selectedFeelings.length} feeling${selectedFeelings.length > 1 ? 's' : ''}`, "success", 1500)
   } else {
     nextBtn.style.opacity = "0"
     nextBtn.style.transform = "translateY(20px)"

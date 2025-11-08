@@ -38,17 +38,78 @@ function updateProgressDisplay() {
     const completed = completedChallenges.length;
     const percentage = Math.round((completed / totalChallenges) * 100);
     
-    // Update progress bar
-    document.getElementById('progress-percentage').textContent = `${percentage}%`;
-    document.getElementById('progress-fill').style.width = `${percentage}%`;
+    // Animate progress bar
+    const progressFill = document.getElementById('progress-fill');
+    const currentWidth = parseFloat(progressFill.style.width) || 0;
+    const targetWidth = percentage;
     
-    // Update stats
-    document.getElementById('completed-days').textContent = completed;
-    document.getElementById('remaining-days').textContent = totalChallenges - completed;
-    document.getElementById('current-streak').textContent = currentStreak;
+    // Animate the progress bar
+    animateProgressBar(currentWidth, targetWidth);
+    
+    // Update percentage with animation
+    const percentageElement = document.getElementById('progress-percentage');
+    animateNumber(percentageElement, parseInt(percentageElement.textContent) || 0, percentage, '%');
+    
+    // Update stats with animation
+    animateNumber(document.getElementById('completed-days'), 
+                 parseInt(document.getElementById('completed-days').textContent) || 0, 
+                 completed);
+    
+    animateNumber(document.getElementById('remaining-days'), 
+                 parseInt(document.getElementById('remaining-days').textContent) || 30, 
+                 totalChallenges - completed);
+    
+    animateNumber(document.getElementById('current-streak'), 
+                 parseInt(document.getElementById('current-streak').textContent) || 0, 
+                 currentStreak);
     
     // Update challenge statuses
     updateChallengeStatuses();
+}
+
+function animateProgressBar(from, to) {
+    const progressFill = document.getElementById('progress-fill');
+    const duration = 800;
+    const startTime = performance.now();
+    
+    function updateProgress(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const currentWidth = from + (to - from) * easeOutQuart;
+        
+        progressFill.style.width = `${currentWidth}%`;
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateProgress);
+        }
+    }
+    
+    requestAnimationFrame(updateProgress);
+}
+
+function animateNumber(element, from, to, suffix = '') {
+    const duration = 1000;
+    const startTime = performance.now();
+    
+    function updateNumber(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+        const currentValue = Math.round(from + (to - from) * easeOutQuart);
+        
+        element.textContent = currentValue + suffix;
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateNumber);
+        }
+    }
+    
+    requestAnimationFrame(updateNumber);
 }
 
 function updateChallengeStatuses() {
@@ -115,9 +176,15 @@ function startChallenge(dayNumber) {
 }
 
 function completeChallenge(dayNumber) {
+    console.log('completeChallenge called with dayNumber:', dayNumber);
+    console.log('Current completedChallenges:', completedChallenges);
+    
     const today = new Date().toDateString();
     
     if (!completedChallenges.includes(dayNumber)) {
+        console.log('Adding day', dayNumber, 'to completed challenges');
+        
+        // Add to completed challenges
         completedChallenges.push(dayNumber);
         
         // Remove from in-progress if it was there
@@ -138,6 +205,13 @@ function completeChallenge(dayNumber) {
         }
         
         lastCompletedDate = today;
+        
+        console.log('About to animate completion for day', dayNumber);
+        
+        // Animate the completion
+        animateCompletion(dayNumber);
+        
+        // Save progress and update display
         saveProgress();
         updateProgressDisplay();
         
@@ -146,10 +220,77 @@ function completeChallenge(dayNumber) {
         
         // Check for milestones
         checkMilestones();
+    } else {
+        console.log('Day', dayNumber, 'is already completed');
     }
     
     // Hide action menu
-    document.getElementById(`actions-${dayNumber}`).style.display = 'none';
+    const actionsElement = document.getElementById(`actions-${dayNumber}`);
+    if (actionsElement) {
+        actionsElement.style.display = 'none';
+    }
+}
+
+function animateCompletion(dayNumber) {
+    console.log('animateCompletion called for day', dayNumber);
+    
+    const challengeCard = document.querySelector(`[data-day="${dayNumber}"]`);
+    const statusElement = document.getElementById(`status-${dayNumber}`);
+    
+    console.log('Found challengeCard:', challengeCard);
+    console.log('Found statusElement:', statusElement);
+    
+    if (!challengeCard || !statusElement) {
+        console.error('Could not find challenge card or status element for day', dayNumber);
+        return;
+    }
+    
+    // Add completion animation
+    challengeCard.classList.add('completing');
+    console.log('Added completing class to challenge card');
+    
+    // Animate the checkmark
+    statusElement.style.transform = 'scale(0)';
+    statusElement.style.transition = 'all 0.3s ease';
+    
+    setTimeout(() => {
+        statusElement.textContent = '✅';
+        statusElement.style.transform = 'scale(1.2)';
+        console.log('Updated status to checkmark');
+        
+        setTimeout(() => {
+            statusElement.style.transform = 'scale(1)';
+            challengeCard.classList.remove('completing');
+            challengeCard.classList.add('completed');
+            challengeCard.classList.remove('in-progress');
+            console.log('Completed animation for day', dayNumber);
+        }, 300);
+    }, 200);
+    
+    // Add ripple effect
+    const ripple = document.createElement('div');
+    ripple.className = 'completion-ripple';
+    ripple.style.cssText = `
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(16, 185, 129, 0.3);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        animation: ripple-expand 0.6s ease-out;
+        pointer-events: none;
+        z-index: 10;
+    `;
+    
+    challengeCard.style.position = 'relative';
+    challengeCard.appendChild(ripple);
+    console.log('Added ripple effect');
+    
+    setTimeout(() => {
+        ripple.remove();
+    }, 600);
 }
 
 function getYesterday() {
@@ -164,14 +305,27 @@ function showCompletionCelebration(dayNumber) {
         `You're building great habits! Day ${dayNumber} done! ✨`,
         `Fantastic progress! Day ${dayNumber} finished! 🎨`,
         `Keep going! Day ${dayNumber} completed! 💪`,
-        `You're on fire! Day ${dayNumber} done! 🔥`
+        `You're on fire! Day ${dayNumber} done! 🔥`,
+        `Excellent work! Day ${dayNumber} completed! 🌟`,
+        `You're crushing it! Day ${dayNumber} done! 🚀`,
+        `Outstanding! Day ${dayNumber} completed! ⭐`
     ];
     
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    
+    // Show celebration message
     showMessage(randomMessage, 'success', 3000);
     
     // Add confetti animation
     createConfetti();
+    
+    // Show progress update
+    const completed = completedChallenges.length;
+    const percentage = Math.round((completed / 30) * 100);
+    
+    setTimeout(() => {
+        showMessage(`Progress: ${completed}/30 days (${percentage}%) - Keep up the great work! 📈`, 'info', 4000);
+    }, 2000);
 }
 
 function checkMilestones() {
@@ -274,7 +428,13 @@ function goBack() {
     document.body.style.transform = "scale(0.95)";
 
     setTimeout(() => {
-        window.location.href = "feedback.html";
+        // Use browser history to go back to previous page
+        if (window.history.length > 1) {
+            window.history.back()
+        } else {
+            // Fallback to feedback.html if no history
+            window.location.href = "feedback.html";
+        }
     }, 300);
 }
 
@@ -384,3 +544,32 @@ setInterval(() => {
         }
     }
 }, 86400000); // Check once per day 
+
+// Test function to verify JavaScript is working
+function testCompleteChallenge() {
+    console.log('Testing completeChallenge function...');
+    completeChallenge(1);
+}
+
+// Add test button to page
+document.addEventListener('DOMContentLoaded', () => {
+    // Add test button
+    const testButton = document.createElement('button');
+    testButton.textContent = 'Test Complete Challenge';
+    testButton.style.cssText = `
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background: #8b5cf6;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        z-index: 1000;
+    `;
+    testButton.onclick = testCompleteChallenge;
+    document.body.appendChild(testButton);
+    
+    console.log('Test button added to page');
+}); 
