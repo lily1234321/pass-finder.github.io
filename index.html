@@ -1180,8 +1180,14 @@
         }
 
         function formatAIChatMessage(content) {
-            // Convert URLs to links
-            content = content.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: #4ade80;">$1</a>');
+            // Markdown-style links [text](url) -> clickable
+            content = content.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener" style="color: #4ade80;">$1</a>');
+            // Bare URLs -> clickable (skip ones already inside href="..." or link text)
+            content = content.replace(/(?<!["'=\>])(https?:\/\/[^\s<]+)/g, (m) => {
+                const clean = m.replace(/[.,;)!?]+$/, '');
+                const trail = m.slice(clean.length);
+                return `<a href="${clean}" target="_blank" rel="noopener" style="color: #4ade80;">${clean}</a>${trail}`;
+            });
             
             // Convert line breaks to <br>
             content = content.replace(/\n/g, '<br>');
@@ -1192,25 +1198,40 @@
             return content;
         }
 
-        function sendAIChatMessage() {
+        const AI_WORKER_URL = "https://pass-finder-ai.lily-loool666.workers.dev";
+
+        async function sendAIChatMessage() {
             const input = document.getElementById('aiChatInput');
             const message = input.value.trim();
-            
+
             if (!message || isAITyping) return;
-            
+
             // Add user message
             addAIChatMessage(message, 'user');
             input.value = '';
-            
-            // Show typing indicator
+
+            // Show typing indicator (honest: really waiting on the network)
             showAITypingIndicator();
-            
-            // Generate AI response
-            setTimeout(() => {
+
+            try {
+                const context = aiChatHistory.slice(-10).map(m => ({
+                    role: m.sender === 'ai' ? 'assistant' : 'user',
+                    content: m.content
+                }));
+                const res = await fetch(AI_WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ messages: context })
+                });
+                if (!res.ok) throw new Error('worker ' + res.status);
+                const data = await res.json();
+                if (!data.reply) throw new Error('empty');
                 hideAITypingIndicator();
-                const aiResponse = generateAIIntelligentResponse(message);
-                addAIChatMessage(aiResponse, 'ai');
-            }, 1000 + Math.random() * 2000);
+                addAIChatMessage(data.reply, 'ai');
+            } catch (e) {
+                hideAITypingIndicator();
+                addAIChatMessage("Hmm, my AI brain hiccupped \u2014 please try again in a moment.", 'ai');
+            }
         }
 
         function handleAIChatKeyDown(event) {
@@ -1294,129 +1315,7 @@
             }
         }
 
-        function generateAIIntelligentResponse(userMessage) {
-            // Simple AI response logic
-            if (userMessage.includes('programming') || userMessage.includes('code')) {
-                return `**Programming Learning Plan** 🖥️
-
-Based on your interest in programming, here's a personalized plan:
-
-**Daily Tasks:**
-• Watch a 5-minute programming video daily
-• Practice one coding exercise
-
-**Weekly Goals:**
-• Learn one programming concept per week
-• Complete one small project
-
-**Recommended Resources:**
-• YouTube programming tutorials
-• freeCodeCamp
-• LeetCode easy problems
-
-**Learning Tips:**
-• Start with HTML/CSS, then JavaScript
-• Keep a learning journal
-• Join programming communities
-• Don't be afraid to make mistakes
-
-Which programming language would you like to start with?`;
-            }
-            
-            if (userMessage.includes('art') || userMessage.includes('drawing')) {
-                return `**Art Learning Plan** 🎨
-
-Your personalized art learning plan:
-
-**Daily Tasks:**
-• Draw a simple sketch or doodle daily
-• Practice basic drawing techniques
-
-**Weekly Goals:**
-• Complete one small artwork per week
-• Learn one new art technique
-
-**Recommended Resources:**
-• Pinterest art inspiration
-• YouTube drawing tutorials
-• Procreate tutorials
-
-**Learning Tips:**
-• Start with simple geometric shapes
-• Observe objects in daily life
-• Don't pursue perfection, enjoy the process
-• Try digital art (iPad + Procreate)
-
-Which art style would you like to explore?`;
-            }
-            
-            if (userMessage.includes('music') || userMessage.includes('instrument')) {
-                return `**Music Learning Plan** 🎵
-
-Your personalized music learning plan:
-
-**Daily Tasks:**
-• Listen to one new song daily
-• Practice basic music theory
-
-**Weekly Goals:**
-• Learn one simple song per week
-• Practice scales daily
-
-**Recommended Resources:**
-• Spotify/Apple Music
-• YouTube music tutorials
-• Local music classes
-
-**Beginner Instruments:**
-• Ukulele (easiest)
-• Harmonica
-• Keyboard
-• Guitar
-
-Which instrument interests you most?`;
-            }
-            
-            if (userMessage.includes('fitness') || userMessage.includes('exercise')) {
-                return `**Fitness Plan** 💪
-
-Your personalized fitness plan:
-
-**Daily Tasks:**
-• Do 15 minutes of cardio daily
-• Practice basic exercises
-
-**Weekly Goals:**
-• Complete 3 full workouts per week
-• Try one new exercise
-
-**Recommended Resources:**
-• Nike Training Club
-• YouTube fitness videos
-• Local gym classes
-
-**Beginner Exercises:**
-• Walking/Jogging
-• Jump rope
-• Push-ups/Squats
-• Yoga/Stretching
-
-Which type of exercise would you like to start with?`;
-            }
-            
-            // Default response
-            return `Thank you for sharing! I understand your interests.
-
-Exploration is a process, and everyone has their own pace. What's important is maintaining curiosity and an open mind.
-
-Based on what you've mentioned, I suggest you can:
-• Start with areas that interest you
-• Create a simple and feasible plan
-• Invest a little time every day
-• Don't be afraid to try new things
-
-Is there anything specific you'd like to explore? I can help you create a personalized plan!`;
-        }
+        // (old keyword bot removed \u2014 now powered by real AI via Worker)\n
 
         function scrollAIChatToBottom() {
             const messagesContainer = document.getElementById('aiChatMessages');
