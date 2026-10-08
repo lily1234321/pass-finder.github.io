@@ -3,7 +3,7 @@
 //
 // ⚠️ 部署后把下面改成你的 Worker 地址，形如:
 //    const WORKER_URL = "https://pass-finder-ai.YOURNAME.workers.dev";
-const WORKER_URL = "https://pass-finder-ai.lily-loool666.workers.dev";
+const WORKER_URL = "https://REPLACE-WITH-YOUR-WORKER.workers.dev";
 
 let chatHistory = [];
 let isTyping = false;
@@ -128,8 +128,21 @@ function formatMessage(content) {
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 
-    // Convert URLs to links
-    content = content.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" style="color: #4ade80;">$1</a>');
+    // Markdown-style links [text](url) -> clickable
+    content = content.replace(
+        /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
+        '<a href="$2" target="_blank" rel="noopener" style="color: #4ade80;">$1</a>'
+    );
+
+    // Bare URLs -> clickable (skip ones already inside href="..." or link text)
+    content = content.replace(
+        /(?<!["'=\>])(https?:\/\/[^\s<]+)/g,
+        (m) => {
+            const clean = m.replace(/[.,;)!?]+$/, '');
+            const trail = m.slice(clean.length);
+            return `<a href="${clean}" target="_blank" rel="noopener" style="color: #4ade80;">${clean}</a>${trail}`;
+        }
+    );
 
     // Convert line breaks to <br>
     content = content.replace(/\n/g, '<br>');
